@@ -1,0 +1,93 @@
+.Bacground {
+    background-image: url("../assets/home.jpg");
+    background-size: cover; /* Adjust as needed */
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 100vh;
+  }
+
+
+  /* Add these styles to your stylesheet or in a <style> tag in your React component */
+
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.menu-container {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  max-width: 300px;
+}
+
+.menu-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+}
+
+.menu-item {
+  margin-bottom: 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.menu-link {
+  color: #333;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.menu-link:hover {
+  background-color: #ddd;
+}
+
+.menu-submenu-toggle {
+  background: none;
+  border: none;
+  font-size: 18px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.submenu-list {
+  list-style: none;
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.submenu-item {
+  margin-bottom: 5px;
+}
+
+.submenu-link {
+  color: #666;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.submenu-link:hover {
+  color: #333;
+}
+
