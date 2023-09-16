@@ -4,7 +4,6 @@ import { navLinks } from "../../../constants/index";
 import Navbar from "../../Navbar";
 import Footer from "../../Footer";
 import b from '../../../assets/Consultansy.png'
-
 import menu from "../../../assets/menu.svg";
 import footer2 from "../../../assets/footer2.png";
 import rii1 from '../../../assets/B1.jpg'

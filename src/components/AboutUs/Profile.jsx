@@ -6,8 +6,11 @@ import Footer from "../Footer";
 import home4 from "../../assets/Profile.png";
 import footer2 from "../../assets/footer2.png";
 import menu from "../../assets/menu.svg";
+import axios from "axios";
 const Profile = () => {
   const [toggle, setToggle] = useState(false);
+  const [res, setRes] = useState([]);
+
   // const [submenuOpen, setSubmenuOpen] = useState(null);
 
   // Find the "About" menu from the navLinks constant
@@ -19,6 +22,27 @@ const Profile = () => {
   const toggleMenu = () => {
     setToggle((prev) => !prev);
   };
+
+
+  useEffect(() => {
+    // Fetch data from the backend
+    axios
+      .get("http://localhost:3001/v1/leads/leads-Info")
+      .then((response) => {
+        const resy = response.data.data;
+        console.log(resy);
+        setRes(resy)
+        // setTitles(res);
+        // setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        // setLoading(false);
+      });
+  }, []);
+
+
+
 
   useEffect(() => {
     // Add a listener for the resize event
@@ -39,8 +63,12 @@ const Profile = () => {
     <>
       <Navbar />
       <div className="flex flex-col lg:bg-gray-300 h-auto ">
-        <div className="w-auto h-auto">
-          <img src={home4} alt="image" className="w-full lg:h-[550px]  md:h-[300px] object-cover" />
+      <div className="w-full h-auto">
+        <img
+          src={`http://localhost:3001/${res[2]?.cover}`} // Replace with the correct URL
+          alt={res?.title}
+          className="w-full h-[500px] object-cover"
+        />
         </div>
 
         <div className="absolute flex mt-[73px]">
@@ -107,7 +135,7 @@ const Profile = () => {
                 )}
               </div>
               <div className="px-6 md:mx-10">
-                <div className="text-3xl font-bold lg:mt-6 mt-4">Profile</div>
+                <div className="text-3xl font-bold lg:mt-6 mt-4">{res.length > 0 ? res[2].title : "fh"}</div>
                 <p className=" text-justify mt-6">
                   Supertech Industries Limited, Bangladesh’s leading real estate
                   developer was founded 13 years back in National Capital Region

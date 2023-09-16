@@ -58,7 +58,7 @@ Flat,
   TenStoryResidential,
   OfficeBuilding,
 } from "./components";
-
+import ProjectDetail from "./components/ProjectDetail";
 import { Page,AddPage,Project,AddProject,Media,Carier } from "./Dashboard";
 // import Profile from './components/AboutUs/Profile';
 import Home from "./components/Home";
@@ -69,6 +69,8 @@ const App = () => {
   return (
     <Router>
       <Routes>
+      <Route exact path="/projects/:projectId" element={<ProjectDetail />} />
+
         <Route exact path="/" element={<Home />} />
         <Route exact path="/profile" element={<Profile />} />
         <Route exact path="/csr" element={<Csr />} />

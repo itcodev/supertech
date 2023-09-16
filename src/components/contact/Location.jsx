@@ -108,13 +108,13 @@ const Location = () => {
               </div>
               {/* <div className="px-6 md:mx-10"> */}
                 <div className="text-3xl font-bold lg:mt-6 mt-4 px-6 md:mx-6">Location</div>
-                <p className=" text-justify mx-6">
+                <p className=" text-justify px-6 md:mx-6">
                   Supertech Industries Limited Head Office
                 </p>
-                <p className=" text-justify mx-6" mx-6>Basta Bazar</p>
+                <p className=" text-justify px-6 md:mx-6" mx-6>Basta Bazar</p>
 
-                <p className=" text-justify mx-6">Singar</p>
-                <p className="mb-24 mx-6">Manikganj
+                <p className=" text-justify px-6 md:mx-6">Singar</p>
+                <p className="mb-24 px-6 md:mx-6">Manikganj
                 
                 <Link to= 'https://goo.gl/maps/e4FFGXK3cjUDduxK9'>
                 <img src={location} alt="location" className="h-[40px] w-[40px] " />

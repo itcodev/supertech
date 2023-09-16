@@ -63,7 +63,7 @@ const News = () => {
       <div className="flex flex-col bg-gray-200 h-auto">
       <div className="w-full h-auto">
         <img
-          src={`http://localhost:3001/${res[3]?.cover}`} // Replace with the correct URL
+          src={`http://localhost:3001/${res[6]?.cover}`} // Replace with the correct URL
           alt={res[0]?.title}
           className="w-full h-[500px] object-cover"
         />
@@ -132,7 +132,7 @@ const News = () => {
                 )}
               </div>
               {/* <div className="px-6 md:mx-10"> */}
-                <div className="text-3xl font-bold lg:mt-6 mt-4 px-6 mx-6"> {res.length > 0 ? res[3].title : "fh"}</div>
+                <div className="text-3xl font-bold lg:mt-6 mt-4 px-6 mx-6"> {res.length > 0 ? res[6].title : "fh"}</div>
 
               <div className="mt-4 px-6 mb-20 mx-6">
                 <ul className="flex flex-wrap gap-2 sm:gap-4 md:gamx-2">

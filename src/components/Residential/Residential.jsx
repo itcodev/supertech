@@ -89,7 +89,7 @@ const Residential = () => {
                           className={`text-white lg:bg-black h-auto text-lg ${
                             openSubMenuId === cityItem.id
                               ? "bg-white text-yellow-500"
-                              : ""
+                              : " "
                           }`}
                         >
                           <Link

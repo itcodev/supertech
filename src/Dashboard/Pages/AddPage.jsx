@@ -29,8 +29,8 @@ const AddPage = () => {
   const onFinish = async (values) => {
     try {
       const formData = new FormData();
-      formData.append("title", values.title);
       formData.append("cover", selectedFile);
+      formData.append("title", values.title);
       formData.append("content", values.content);
 
       const response = await axios.post(
@@ -66,7 +66,7 @@ const AddPage = () => {
       <div className="bg-white m-6 h-auto rounded">
         <Form form={form} onFinish={onFinish} className="flex flex-col mx-2">
           <div className="flex justify-center space-x-2">
-            <div className="w-[550px]">
+          <div className="w-[550px]">
               <label htmlFor="cover">Add Cover Photo</label>
               <input
                 type="file"

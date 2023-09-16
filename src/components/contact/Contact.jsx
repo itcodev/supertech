@@ -7,15 +7,14 @@ import Navbar from "../Navbar";
 import Footer from "../Footer";
 import home5 from "../../assets/home5.jpeg";
 import menu from "../../assets/menu.svg";
-import footer2 from '../../assets/footer2.png'
+import footer2 from "../../assets/footer2.png";
 const { Option } = Select;
 
 const Contact = () => {
   const countries = [
-    { value: '', label: '--Select--' },
-    { value: 'Afghanistan', label: 'Afghanistan' },
+    { value: "", label: "--Select--" },
+    { value: "Afghanistan", label: "Afghanistan" },
   ];
-
 
   const [form] = Form.useForm();
   const [toggle, setToggle] = useState(false);
@@ -48,8 +47,12 @@ const Contact = () => {
     <>
       <Navbar />
       <div className="flex flex-col bg-gray-200 h-auto">
-      <div className="w-auto h-auto">
-          <img src={home5} alt="image" className="w-full lg:h-[550px]  md:h-[300px] object-cover" />
+        <div className="w-auto h-auto">
+          <img
+            src={home5}
+            alt="image"
+            className="w-full lg:h-[550px]  md:h-[300px] object-cover"
+          />
         </div>
 
         <div className="absolute flex mt-[73px]">
@@ -57,7 +60,10 @@ const Contact = () => {
             <img src={footer2} alt="image" className="lg:w-[150px] lg:h-[150px] ml-2 w-[80px] h-[80px]" />
           </div> */}
           <div className="text-white lg:text-1xl text-sm ml-6  text-shadow-lg  font-serif ">
-            <Link to="/" className="underline hover:text-orange-600 shadow-2xl ">
+            <Link
+              to="/"
+              className="underline hover:text-orange-600 shadow-2xl "
+            >
               Home
             </Link>
 
@@ -89,11 +95,13 @@ const Contact = () => {
                 <div className=" sm:flex flex gap-2 bg-slate-400 rounded md:mx-8  mt-2">
                   <img
                     src={menu}
-                    alt="menu" 
+                    alt="menu"
                     className="md:w-[60px] md:h-[60px] w-[30px] h-[30px] object-contain lg:hidden"
                     onClick={toggleMenu}
                   />
-                  <p className="text-white lg:hidden md:text-2xl text-lg md:mt-2">Menu</p>
+                  <p className="text-white lg:hidden md:text-2xl text-lg md:mt-2">
+                    Menu
+                  </p>
                 </div>
                 {toggle && (
                   <div className="bg-white text-black p-2 md:mx-10 mx-2">
@@ -116,29 +124,33 @@ const Contact = () => {
                 )}
               </div>
               {/* <div className="px-6 md:mx-10"> */}
-                <div className="text-3xl font-bold lg:mt-6 mt-4 px-6 md:mx-6">Contact</div>
+              <div className="text-3xl font-bold lg:mt-6 mt-4 px-6 md:mx-6">
+                Contact
+              </div>
 
-
-                <Form form={form} onFinish={""} className="flex flex-col p-4">
-                <div className="float-right text-right mb-4">
+              <Form
+                form={form}
+                onFinish={""}
+                className="flex flex-col p-4 px-6 md:mx-6"
+              >
+                {/* <div className="float-right text-right mb-4">
                   <span className="text-red-500">*</span>mandatory fields
-                </div>
+                </div> */}
 
                 <div className="font-bold mb-6">
                   Nature of Query <span className="text-red-500">*</span>
                 </div>
 
-                <div className="grid grid-cols-1 gap-2 ">
+                <div className="grid grid-cols-1 mb-10">
                   <Radio.Group
                     name="natureofquery"
                     defaultValue="General Feedback"
                   >
                     <Radio value="General Feedback">General Feedback</Radio>
-
                   </Radio.Group>
                 </div>
 
-                <div className="flex justify-center space-x-2">
+                <div className="flex justify-between space-x-2">
                   <div>
                     <label htmlFor="" className=" font-semibold">
                       Name
@@ -162,7 +174,7 @@ const Contact = () => {
                   </div>
                 </div>
 
-                <div className="flex justify-center space-x-2">
+                <div className="flex justify-between space-x-2">
                   <div>
                     <label htmlFor="" className=" font-semibold">
                       MobileNo
@@ -186,26 +198,31 @@ const Contact = () => {
                   </div>
                 </div>
 
-
-
-
-                <div className="flex justify-center space-x-2">
-                <div className="flex items-center">
-      <div className="mr-4 font-semibold">Country <span className="red">*</span></div>
-      <div className="w-[250px]">
-        <Select className="w-full max-w-sm inp2" id="country" name="country" maxLength="40" placeholder="--Select--">
-          {countries.map((country) => (
-            <Option key={country.value} value={country.value}>
-              {country.label}
-            </Option>
-          ))}
-        </Select>
-      </div>
-    </div>
+                <div className="flex justify-between space-x-2">
+                  <div className="flex items-center">
+                    <div className="mr-4 font-semibold">
+                      Country <span className="red"></span>
+                    </div>
+                    <div className="w-[250px]">
+                      <Select
+                        className="w-full max-w-sm inp2"
+                        id="country"
+                        name="country"
+                        maxLength="40"
+                        placeholder="--Select--"
+                      >
+                        {countries.map((country) => (
+                          <Option key={country.value} value={country.value}>
+                            {country.label}
+                          </Option>
+                        ))}
+                      </Select>
+                    </div>
+                  </div>
 
                   <div>
                     <label htmlFor="" className=" font-semibold">
-                       Querry text
+                      Querry text
                     </label>
                     <div className="w-[250px] ">
                       <Form.Item name="department">
@@ -225,9 +242,8 @@ const Contact = () => {
                 </div>
               </Form>
             </div>
+          </div>
         </div>
-        </div>
-
       </div>
       <Footer />
     </>

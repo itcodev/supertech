@@ -1,18 +1,19 @@
+
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { navLinks } from "../../constants";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
-import home5 from "../../assets/Resedential.png";
-import menu from "../../assets/menu.svg";
+import home5 from "../../assets/Interrior.png";
+import footer2 from "../../assets/footer2.png";
+import axios from "axios";
 
 const Commercial = () => {
   const [openSubMenuId, setOpenSubMenuId] = useState(null);
-  const [openAgainMenuId , setOpenAgainMenuId] = useState(null);
+  const [titles, setTitles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState(null); // New state for selected category
   const location = useLocation();
-  const [toggle, setToggle] = useState(false);
-  const [toggleAgain, setToggleAgain] = useState(false);
-
   const projectMenu = navLinks.find((item) => item.id === "project");
   const projectSubmenuItems = projectMenu && projectMenu.submenu;
 
@@ -22,22 +23,31 @@ const Commercial = () => {
     } else {
       setOpenSubMenuId(null);
     }
+
+    // Fetch data from the backend
+    axios
+      .get("http://localhost:3001/v1/leads/project")
+      .then((response) => {
+        const res = response.data.project;
+        setTitles(res);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      });
   }, [location]);
 
-  const toggleMenu = (itemId) => {
-    if (openSubMenuId === itemId) {
+  const toggleMenu = (titleId) => {
+    if (openSubMenuId === titleId) {
       setOpenSubMenuId(null);
     } else {
-      setOpenSubMenuId(itemId);
+      setOpenSubMenuId(titleId);
     }
   };
 
-  const toggleAgainMenu = (itemId) => {
-    if (openAgainMenuId === itemId) {
-      setOpenAgainMenuId(null);
-    } else {
-      setOpenAgainMenuId(itemId);
-    }
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category); // Set the selected category when a category is clicked
   };
 
   return (
@@ -45,128 +55,77 @@ const Commercial = () => {
       <Navbar />
       <div className="flex flex-col bg-gray-200 h-auto">
         <div className="w-full h-auto">
-          <img
-            src={home5}
-            alt="image"
-            className="w-full lg:h-[550px] md:h-[300px] object-cover"
-          />
+          <img src={home5} alt="image" className="w-full" />
         </div>
 
-        <div className="absolute flex mt-[73px]">
-          <div className="text-white lg:text-1xl text-sm ml-6  text-shadow-lg  font-serif ">
-            <Link
-              to="/"
-              className="underline hover:text-orange-600 shadow-2xl "
-            >
+        <div className="absolute flex top-14">
+          <div>
+            <img src={footer2} alt="image" className="w-[150px] h-[150px]" />
+          </div>
+          <div className="text-white text-1xl mt-10 ml-6 font-serif ">
+            <Link to="/" className="underline">
               Home
             </Link>
-            <span className="ml-4 "> / Commercial /</span>
+            <span className="ml-4"> / Project / commercial</span>
           </div>
         </div>
 
-        <div className="absolute mt-[500px] lg:bg-black w-full opacity-90">
+        <div className="static md:bg-black w-full opacity-90">
           <div
-            className="lg:flex hidden items-center text-white gap-4 ml-56 text-xl mt-2"
+            className="md:flex hidden items-center text-white gap-4 ml-56 text-xl mt-2 "
             style={{ fontFamily: "siemens" }}
           >
             {projectSubmenuItems &&
               projectSubmenuItems.map((item) => (
                 <div
                   key={item.id}
-                  className={`cursor-pointer p-2 ${
-                    openSubMenuId === item.id
-                      ? "bg-white text-orange-500"
-                      : "bg-black text-white"
-                  }`}
-                  onClick={() => toggleMenu(item.id)}
+                  className={`hover:bg-white hover:text-black cursor-pointer bg-black p-2`}
+                  onClick={() => handleCategoryClick(item.title)} 
+                  // onClick={() => toggleMenu(item.id)}
                 >
                   <span>{item.title}</span>
-                  {openSubMenuId === item.id && (
-                    <div className="mt-3 absolute">
-                      {item.submenu?.map((cityItem) => (
-                        <div
-                          key={cityItem.id}
-                          className={`text-white lg:bg-black h-auto text-lg ${
-                            openSubMenuId === cityItem.id
-                              ? "bg-white text-yellow-500"
-                              : ""
-                          }`}
-                        >
-                          <Link
-                            to={cityItem.url}
-                            className="p-2 flex items-center hover:shadow-lg hover:bg-white hover:text-orange-500 hover:w-full"
-                          >
-                            {cityItem.title}
-                          </Link>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                    {openSubMenuId === item.id && (
+                      <div className="mt-3 absolute">
+                        {/* Render the list of titles based on the selected category */}
+                        {titles
+                          .filter((title) => title.category === selectedCategory)
+                          .map((title) => (
+                            <div
+                              key={title.id}
+                              className="text-white bg-black h-auto text-lg w-[150px]"
+                            >
+                              <Link
+                                to={`${title.id}`}
+                                className="p-2 flex items-center hover:shadow-lg hover:bg-white hover:text-orange-500 hover:w-full"
+                              >
+                                {title.title}
+                              </Link>
+                            </div>
+                          ))}
+                      </div>
+                    )}
                 </div>
               ))}
           </div>
         </div>
-
-        <div className="bg-white shadow-xl lg:mx-44 h-[1000px]">
-          <div className="flex flex-col h-auto  m-0">
-            <div>
-              <div className="sm:flex  relative lg:absolute flex-col px-6 ">
-                <div className=" sm:flex flex gap-2 bg-slate-400 rounded md:mx-8  mt-2">
-                  <img
-                    src={menu}
-                    alt="menu"
-                    className="md:w-[60px] md:h-[60px] w-[30px] h-[30px] object-contain lg:hidden"
-                    onClick={() => setToggle(!toggle)}
-                  />
-                  <p className="text-white lg:hidden md:text-2xl text-lg md:mt-2">
-                    Menu
-                  </p>
-                </div>
-                {toggle && (
-            <div className="bg-white h-auto text-black  md:mx-10 mx-2">
-            {projectSubmenuItems &&
-              projectSubmenuItems.map((item) => (
-                <div
-                  key={item.id}
-                  className={`cursor-pointer p-2 ${
-                    openSubMenuId === item.id
-                      ? "bg-white"
-                      : "bg-white text-black hover:bg-white hover:text-orange-700"
-                  }`}
-                  onClick={() => toggleAgainMenu(item.id)}
-                >
-                  <span>{item.title}</span>
-                  {openAgainMenuId === item.id && (
-                    <div className="mt-3 absolute">
-                      {item.submenu?.map((cityItem) => (
-                        <div
-                          key={cityItem.id}
-                          className={`text-white bg-black h-auto text-lg ${
-                            setOpenAgainMenuId === cityItem.id
-                              ? "bg-white text-yellow-500"
-                              : ""
-                          }`}
-                        >
-                          <Link
-                            to={cityItem.url}
-                            className="p-2 flex items-center hover:shadow-lg hover:bg-white hover:text-orange-500 hover:w-full"
-                          >
-                            {cityItem.title}
-                          </Link>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-                  </div>
-                )}
-              </div>
-              <div className="md:px-6 md:mx-10"></div>
-            </div>
-          </div>
+        
+        <div className="bg-white shadow-xl p-2 md:mx-44 mt-2 h-[500px]">
+          {/* Display titles based on the selected category */}
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <ul>
+              {titles
+                .filter((title) => title.category === selectedCategory)
+                .map((title) => (
+                  <li key={title.id}>
+                    <Link to={`/projects/${title.id}`}>{title.name}</Link>
+                  </li>
+                ))}
+            </ul>
+          )}
         </div>
-      </div>
+      </div> 
       <Footer />
     </>
   );
