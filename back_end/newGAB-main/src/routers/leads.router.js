@@ -20,6 +20,7 @@ getMediaById,
   saveProjectInfo,
   insertProject,
   insertMedia,
+  insertCarier,
   insertCust,
   insertCat,
   generateProjectId,
@@ -32,6 +33,8 @@ getMediaById,
 } = require("../model/leads/leads.model");
 const { getProject } = require("../model/leads/leads.model");
 const { getMedia } = require("../model/leads/leads.model");
+const { getCarier } = require("../model/leads/leads.model");
+
 
 
 const {getProjectById} = require('../model/leads/leads.model')
@@ -40,7 +43,7 @@ const LeadCategorySchema = require("../model/leads/category.Schema");
 // const MediaSchema = require('../model/leads/media.Schema')
 const mongoose = require("mongoose");
 const StaffSchema = require("../model/leads/Staff.schema");
-const CarierSchema = require("../model/leads/carier.Schema");
+// const CarierSchema = require("../model/leads/carier.Schema");
 // const  MediaSchema   = require("../model/leads/media.Schema");
 
 const multer = require("multer");
@@ -578,27 +581,27 @@ router.post("/carier", upload1.single('cover'), async (req, res) => {
     title,
     content,
     category,
+
   } = req.body;
 
   try {
     const leadInfoId = uuidv4();
 
-    // Create a new LeadInfo instance with the uploaded file path and other data
-    const carierInfo = new CarierSchema({
+    // Create a new media object
+    const carierObj = {
+      cover: fileName,
       title,
-      cover: fileName, // Store only the filename, not the folder path
-
-      content,
       category,
-      leadInfoId,
-    });
+      content,
+    };
 
-    await carierInfo.save();
+    // Save the project object in the database
+    const savedCarier = await insertCarier(carierObj);
 
-    res.status(200).json({ message: "carier information saved successfully" });
+    return res.json({ message: 'Carier data saved successfully', carier: savedCarier });
   } catch (error) {
-    console.error("Error saving carier information:", error);
-    res.status(500).json({ error: "Error saving lead information" });
+    console.log(error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -606,16 +609,13 @@ router.post("/carier", upload1.single('cover'), async (req, res) => {
 //get carier
 router.get("/carier", async (req, res) => {
   try {
-    // Fetch specific fields from the lead information
-    const carierFields = await CarierSchema.find({}, "title cover content category");
+    // Retrieve project information
+    const carier = await getCarier();
 
-    res.json({
-      status: "success",
-      data: carierFields,
-    });
+    return res.json({ carier });
   } catch (error) {
-    console.error("Error fetching carier information:", error);
-    res.status(500).json({ error: "Error fetching carier information" });
+    console.log(error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -624,8 +624,6 @@ router.get("/carier", async (req, res) => {
 
 //get media
 router.get("/media", async (req, res) => {
-
-
   try {
     // Retrieve project information
     const media = await getMedia();
@@ -635,9 +633,6 @@ router.get("/media", async (req, res) => {
     console.log(error);
     res.status(500).json({ error: 'Internal server error' });
   }
-
-
-  
 });
 
 

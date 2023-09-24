@@ -3,7 +3,7 @@ const customerSchema = require("./customer.Schema");
 const LeadCategorySchema = require("./category.Schema");
 const { LeadsSchema } = require("./leads.schema");
 const  MediaSchema  = require("./media.schema");
-
+const CarierSchema = require('../leads/carier.Schema')
 
 // Assuming you have a database connection and a User model defined
 
@@ -70,6 +70,30 @@ const insertMedia = mediaObj =>{
    
 }
 
+
+
+const insertCarier = carierObj =>{
+
+    return new Promise((resolve,reject)=>{
+        try {
+            CarierSchema(carierObj)
+            .save()
+            .then((data)=>{
+                resolve(data)
+                
+            })
+            .catch((error)=>{
+                reject(error)
+            })
+        
+        } catch (error) {
+
+            reject(error)
+            
+        }
+    })
+   
+}
 //get project
 const getProject = () => {
     return new Promise((resolve, reject) => {
@@ -451,6 +475,9 @@ module.exports={
     insertCust,
     insertCat,
     insertMedia,
+    insertCarier,
+
+
  getMedia,
  getMediaById,
  getCarierById,

@@ -60,6 +60,7 @@ Flat,
 } from "./components";
 import ProjectDetail from "./components/ProjectDetail";
 import Mediadetail from "./components/Mediadetail";
+import Carierdetail from "./components/Carierdetail";
 import { Page,AddPage,Project,AddProject,Media,Carier } from "./Dashboard";
 // import Profile from './components/AboutUs/Profile';
 import Home from "./components/Home";
@@ -76,6 +77,8 @@ const App = () => {
 
       <Route exact path="/projects/:projectId" element={<ProjectDetail />} />
       <Route exact path="/media/:mediaId" element={<Mediadetail />} />
+      <Route exact path="/carier/:carierId" element={<Carierdetail />} />
+
 
    
 

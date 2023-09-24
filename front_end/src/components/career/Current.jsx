@@ -4,12 +4,16 @@ import { Link } from "react-router-dom";
 import { navLinks } from "../../constants";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
-import home5 from "../../assets/CurrentOpening.png";
+import home3 from "../../assets/BusinessQuaries.png";
+import axios from "axios";
 import menu from "../../assets/menu.svg";
-import footer2 from '../../assets/footer2.png'
+import footer2 from "../../assets/footer2.png";
 const Current = () => {
   const [toggle, setToggle] = useState(false);
+  const [res, setRes] = useState([]);
 
+
+ 
   // Find the "About" menu from the navLinks constant
   const aboutMenu = navLinks.find((item) => item.id === "career");
 
@@ -19,6 +23,25 @@ const Current = () => {
   const toggleMenu = () => {
     setToggle((prev) => !prev);
   };
+
+
+  useEffect(() => {
+    // Fetch data from the backend
+    axios
+      .get("http://localhost:3001/v1/leads/carier")
+      .then((response) => {
+        const resy = response.data.carier;
+        console.log(resy);
+        setRes(resy)
+        // setTitles(res);
+        // setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        // setLoading(false);
+      });
+  }, []);
+
 
   useEffect(() => {
     // Add a listener for the resize event
@@ -38,10 +61,13 @@ const Current = () => {
     <>
       <Navbar />
       <div className="flex flex-col bg-gray-200 h-auto">
-      <div className="w-auto h-auto">
-          <img src={home5} alt="image" className="w-full lg:h-[550px]  md:h-[300px] object-cover" />
+      <div className="w-full h-auto">
+        <img
+          src={`http://localhost:3001/${res[3]?.cover}`} // Replace with the correct URL
+          alt={res?.title}
+          className="w-full h-[500px] object-cover"
+        />
         </div>
-
         <div className="absolute flex mt-[73px]">
           {/* <div>
             <img src={footer2} alt="image" className="lg:w-[150px] lg:h-[150px] ml-2 w-[80px] h-[80px]" />
@@ -51,7 +77,7 @@ const Current = () => {
               Home
             </Link>
 
-            <span className="ml-4 "> / Career / Current</span>
+            <span className="ml-4 "> / Media / News</span>
           </div>
         </div>
 
@@ -106,91 +132,56 @@ const Current = () => {
                 )}
               </div>
               {/* <div className="px-6 md:mx-10"> */}
-                <div className="text-3xl font-bold lg:mt-6 mt-6 px-6 mx-8">Current</div>
+                <div className="text-3xl font-bold lg:mt-6 mt-4 px-6 mx-6"> {res.length > 0 ? res[3].title : "fh"}</div>
 
-
-                
-              <p className="mt-8 text-justify px-6 mx-8">
-                You are welcome to send us your resume by email in soft form.
-                Please remember to include information about your education,
-                nature and years of work experience, previous and current
-                employers, present & expected emoluments and position/role
-                sought.
-                <div className="overflow-x-auto">
-              <table className="w-full border-2 border-blue-100 mt-6 ">
-                  <tbody>
-                    <tr className=" border-2 border-blue-100">
-                      <th>S. No.</th>
-                      <th>Job Code</th>
-                      <th>Functional Area</th>
-                      <th>Job Position</th>
-                      <th>Location</th>
-                      <th>Last Date</th>
-                      <th>Submitted On</th>
-                      <th>Minimum Experience</th>
-                      <th>Maximum Experience</th>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>FIN092021</td>
-                      <td>Accounts &amp; Finance</td>
-                      <td>Chief Financial Officer</td>
-                      <td>Noida</td>
-                      <td>2021-10-15</td>
-                      <td>2021-09-24</td>
-                      <td>15</td>
-                      <td>25</td>
-                    </tr>
-                  </tbody>
-                </table>
-                </div>
-                <p className="mb-2 mt-6">
-                  <strong>Job Description</strong>
-                </p>
-                <p>
-                  1. Strategize and coordinate the development of the Business
-                  Plans of (long term and short term)
-                </p>
-                <p>
-                  2. Drive effective relationship management with investors and
-                  lenders to ensure cost effective and preferential services.
-                </p>
-                <p>
-                  3. Working on Fund Raising proposals both Debt &amp; Equity
-                  side, FDI, NBFC and other Financial Institutions.
-                </p>
-                <p>4. Experience in dealing with PSU banks.</p>
-                <p>5. Lead and facilitate all IPO related activities.</p>
-                <p>
-                  6. Coordinate with all functional heads for the speedy
-                  resolution of all financial issues.
-                  <br />
-                  &nbsp;
-                </p>
-                <p>
-                  <strong>Required Candidate profile:</strong>
-                </p>
-                <ul className="list-disc ml-12 mt-4 space-y-2 mb-6 mx-8">
-                  <li>Must be Qualified C.A </li>
-                  <li>
-                    {" "}
-                    Dynamic personality and ability to engage with people;
+              <div className="mt-4 px-6 mb-20 mx-6">
+                <ul className="flex flex-wrap gap-2 sm:gap-4 md:gamx-2">
+                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
+                    <a href="">All</a>
                   </li>
-                  <li> Excellent oral and written communication skills</li>
-                  <li> Willingness to travel</li>
+                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
+                    <a href="">January</a>
+                  </li>
+                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
+                    <a href="">February</a>
+                  </li>
+                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
+                    <a href="">March</a>
+                  </li>
+                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
+                    <a href="">April</a>
+                  </li>
+                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
+                    <a href="">May</a>
+                  </li>
+                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
+                    <a href="">June</a>
+                  </li>
+                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
+                    <a href="">July</a>
+                  </li>
+                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
+                    <a href="">August</a>
+                  </li>
+                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
+                    <a href="">September</a>
+                  </li>
+                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
+                    <a href="">October</a>
+                  </li>
+                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
+                    <a href="">November</a>
+                  </li>
+                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
+                    <a href="">December</a>
+                  </li>
                 </ul>
-                <p className="mb-32 mx-6">
-                  <strong>CTC</strong>: up to 50 L PA.
-                </p>
-                {/* <div className="bg-white shadow-lg">
-Apply Online
-                            </div> */}
-              </p>
+              </div>
             </div>
+          </div>
         </div>
-        </div>
-
       </div>
+
       <Footer />
     </>
   );

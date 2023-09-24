@@ -6,12 +6,17 @@ import axios from "axios";
 import Navbar from './Navbar'
 import Footer from "./Footer";
 import Sliderr from "./Slider";
+import {navLinks} from '../constants/index'
 
 const ProjectDetail = () => {
   const { projectId } = useParams();
   const [project, setProject] = useState([]);
   const [loading, setLoading] = useState(true);
+  // Find the "About" menu from the navLinks constant
+  const projectMenu = navLinks.find((item) => item.id === "project");
 
+  // Extract the submenu items for the "About" menu
+  const projectSubmenuItems = projectMenu && projectMenu.submenu;
   useEffect(() => {
     // Fetch project details based on projectId from the API
     axios
@@ -60,9 +65,15 @@ const ProjectDetail = () => {
             className="lg:flex hidden items-center text-white gap-4 ml-48 text-xl mt-2"
             style={{ fontFamily: "siemens" }}
           >
-            {/* <Link to="/projects/being-house" className="hover:bg-white hover:text-black">
-              Project 1
-            </Link> */}
+            {projectSubmenuItems &&
+              projectSubmenuItems.map((item) => (
+                <div
+                  key={item.id}
+                  className=" hover:bg-white hover:text-black "
+                >
+                  <Link to={item.url}>{item.title}</Link>
+                </div>
+              ))}
             {/* Define links to other project pages similarly */}
           </div>
         </div>

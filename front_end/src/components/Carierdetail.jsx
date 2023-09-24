@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from "react";
-
-import { Link } from "react-router-dom";
-import { navLinks } from "../../constants";
-import Navbar from "../Navbar";
-import Footer from "../Footer";
-import home3 from "../../assets/BusinessQuaries.png";
+import { useParams ,Link } from "react-router-dom";
 import axios from "axios";
-import menu from "../../assets/menu.svg";
-import footer2 from "../../assets/footer2.png";
-const Career = () => {
-  const [toggle, setToggle] = useState(false);
-  const [res, setRes] = useState([]);
 
+import { navLinks } from "../constants";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+// import home3 from "../assets/BusinessQuaries.png";
+import menu from "../assets/menu.svg";
+// import footer2 from "../../assets/footer2.png";
+const Carierdetail = () => {
+    const { carierId } = useParams();
+    const [toggle, setToggle] = useState(false);
+    const [carier, setCarier] = useState([]);
 
- 
   // Find the "About" menu from the navLinks constant
-  const aboutMenu = navLinks.find((item) => item.id === "career");
+  const aboutMenu = navLinks.find((item) => item.id === "carier");
 
   // Extract the submenu items for the "About" menu
   const aboutSubmenuItems = aboutMenu && aboutMenu.submenu;
@@ -25,46 +24,48 @@ const Career = () => {
   };
 
 
+
   useEffect(() => {
-    // Fetch data from the backend
+    // Fetch project details based on projectId from the API
     axios
-      .get("http://localhost:3001/v1/leads/carier")
-      .then((response) => {
-        const resy = response.data.carier;
-        console.log(resy);
-        setRes(resy)
-        // setTitles(res);
+      .get(`http://localhost:3001/v1/leads/carier/${carierId}`)
+      .then((carierponse) => {
+        const carier = carierponse.data.carier;
+
+
+        console.log(carier);
+ 
+        setCarier(carier);
         // setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching project details:", error);
         // setLoading(false);
       });
-  }, []);
-
+  }, [carierId]);
 
   useEffect(() => {
-    // Add a listener for the resize event
-    const handleResize = () => {
+    const handlecariersize = () => {
       if (window.innerWidth >= 768) {
         setToggle(false); // Close the toggle when screen size is above "md"
       }
     };
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("cariersize", handlecariersize);
 
     // Clean up the listener when the component unmounts
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("cariersize", handlecariersize);
     };
   }, []);
+
   return (
     <>
       <Navbar />
       <div className="flex flex-col bg-gray-200 h-auto">
       <div className="w-full h-auto">
         <img
-          src={`http://localhost:3001/${res[3]?.cover}`} // Replace with the correct URL
-          alt={res?.title}
+          src={`http://localhost:3001/${carier?.cover}`} // Replace with the correct URL
+          alt={carier?.title}
           className="w-full h-[500px] object-cover"
         />
         </div>
@@ -77,7 +78,7 @@ const Career = () => {
               Home
             </Link>
 
-            <span className="ml-4 "> / Media / News</span>
+            <span className="ml-4 "> / Carir / carier</span>
           </div>
         </div>
 
@@ -132,50 +133,10 @@ const Career = () => {
                 )}
               </div>
               {/* <div className="px-6 md:mx-10"> */}
-                <div className="text-3xl font-bold lg:mt-6 mt-4 px-6 mx-6"> {res.length > 0 ? res[3].title : "fh"}</div>
+                <div className="text-3xl font-bold lg:mt-6 mt-4 px-6 mx-6"> {carier.title}</div>
 
               <div className="mt-4 px-6 mb-20 mx-6">
-                <ul className="flex flex-wrap gap-2 sm:gap-4 md:gamx-2">
-                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
-                    <a href="">All</a>
-                  </li>
-                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
-                    <a href="">January</a>
-                  </li>
-                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
-                    <a href="">February</a>
-                  </li>
-                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
-                    <a href="">March</a>
-                  </li>
-                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
-                    <a href="">April</a>
-                  </li>
-                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
-                    <a href="">May</a>
-                  </li>
-                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
-                    <a href="">June</a>
-                  </li>
-                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
-                    <a href="">July</a>
-                  </li>
-                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
-                    <a href="">August</a>
-                  </li>
-                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
-                    <a href="">September</a>
-                  </li>
-                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
-                    <a href="">October</a>
-                  </li>
-                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
-                    <a href="">November</a>
-                  </li>
-                  <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
-                    <a href="">December</a>
-                  </li>
-                </ul>
+
               </div>
             </div>
           </div>
@@ -184,7 +145,7 @@ const Career = () => {
 
       <Footer />
     </>
-  );
-};
+  )
+}
 
-export default Career;
+export default Carierdetail
