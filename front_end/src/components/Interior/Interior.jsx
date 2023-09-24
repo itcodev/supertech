@@ -15,10 +15,10 @@ const Interior = () => {
   const location = useLocation();
   const projectMenu = navLinks.find((item) => item.id === "project");
   const projectSubmenuItems = projectMenu && projectMenu.submenu;
-  // const id = titles._id;
-  // console.log(id);
+
   useEffect(() => {
     if (location.pathname === "/interior") {
+      setSelectedCategory("Interior"); // Set the selected category to "Interior" when the page is first loaded on the "/interior" route
       setOpenSubMenuId("interior");
     } else {
       setOpenSubMenuId(null);
@@ -40,16 +40,8 @@ const Interior = () => {
       });
   }, [location]);
 
-  const toggleMenu = (titleId) => {
-    if (openSubMenuId === titleId) {
-      setOpenSubMenuId(null);
-    } else {
-      setOpenSubMenuId(titleId);
-    }
-  };
-
   const handleCategoryClick = (category) => {
-    setSelectedCategory(category); // Set the selected category when a category is clicked
+    setSelectedCategory(category);
   };
 
   return (
@@ -106,7 +98,9 @@ const Interior = () => {
                           >
                             <Link
                               to={`/projects/${title._id}`}
-                              className="p-2 flex items-center hover:shadow-lg hover:bg-white hover:text-orange-500 hover:w-full"
+                              className={`p-2 flex items-center hover:shadow-lg hover:bg-white hover:text-orange-500 hover:w-full ${
+                                openSubMenuId === item.id && "bg-black text-white"
+                              }`}
                             >
                               {title.title}
                             </Link>

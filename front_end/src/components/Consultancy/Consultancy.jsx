@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { navLinks } from "../../constants";
@@ -19,6 +18,7 @@ const Consultancy = () => {
 
   useEffect(() => {
     if (location.pathname === "/consultancy") {
+      setSelectedCategory("Consultancy"); // Set the selected category to "Consultancy" when the page is first loaded on the "/consultancy" route
       setOpenSubMenuId("consultancy");
     } else {
       setOpenSubMenuId(null);
@@ -28,7 +28,9 @@ const Consultancy = () => {
     axios
       .get("http://localhost:3001/v1/leads/project")
       .then((response) => {
+        console.log(response);
         const res = response.data.project;
+        console.log(res);
         setTitles(res);
         setLoading(false);
       })
@@ -38,16 +40,8 @@ const Consultancy = () => {
       });
   }, [location]);
 
-  const toggleMenu = (titleId) => {
-    if (openSubMenuId === titleId) {
-      setOpenSubMenuId(null);
-    } else {
-      setOpenSubMenuId(titleId);
-    }
-  };
-
   const handleCategoryClick = (category) => {
-    setSelectedCategory(category); // Set the selected category when a category is clicked
+    setSelectedCategory(category);
   };
 
   return (
@@ -66,7 +60,7 @@ const Consultancy = () => {
             <Link to="/" className="underline">
               Home
             </Link>
-            <span className="ml-4"> / Project / consultancy</span>
+            <span className="ml-4"> / Project / Consultancy</span>
           </div>
         </div>
 
@@ -80,34 +74,44 @@ const Consultancy = () => {
                 <div
                   key={item.id}
                   className={`hover:bg-white hover:text-black cursor-pointer bg-black p-2`}
-                  onClick={() => handleCategoryClick(item.title)} 
+                  onClick={() => handleCategoryClick(item.title)}
                 >
                   <span>{item.title}</span>
-                  {openSubMenuId === item.id && (
-                    <div className="mt-3 absolute">
-                      {/* Render the list of titles based on the selected category */}
-                      {titles
+
+                  <div className="mt-3 absolute">
+                    {/* Render the list of titles based on the selected category */}
+                    {selectedCategory &&
+                      ((item.title === "Interior" &&
+                        selectedCategory === "Interior") ||
+                        (item.title === "Commercial" &&
+                          selectedCategory === "Commercial") ||
+                        (item.title === "Consultancy" &&
+                          selectedCategory === "Consultancy") ||
+                        (item.title === "Residential" &&
+                          selectedCategory === "Residential")) &&
+                      titles
                         .filter((title) => title.category === selectedCategory)
                         .map((title) => (
                           <div
                             key={title.id}
                             className={`text-white lg:bg-black h-auto text-lg`}
                           >
-                          <Link
-                            to={`/projects/${title._id}`}
-                            className="p-2 flex items-center hover:shadow-lg hover:bg-white hover:text-orange-500 hover:w-full"
-                          >
-                            {title.title}
-                          </Link>
+                            <Link
+                              to={`/projects/${title._id}`}
+                              className={`p-2 flex items-center hover:shadow-lg hover:bg-white hover:text-orange-500 hover:w-full ${
+                                openSubMenuId === item.id && "bg-black text-white"
+                              }`}
+                            >
+                              {title.title}
+                            </Link>
                           </div>
                         ))}
-                    </div>
-                  )}
+                  </div>
                 </div>
               ))}
           </div>
         </div>
-        
+
         <div className="bg-white shadow-xl p-2 md:mx-44 mt-2 h-[500px]">
           {/* Display titles based on the selected category */}
           {loading ? (

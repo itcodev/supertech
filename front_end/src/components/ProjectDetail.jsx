@@ -88,8 +88,8 @@ const ProjectDetail = () => {
                   </span>
                 </div>
 
-                <div className="bg-green-700 text-white w-[100px] h-[32px] lg:mt-8  rounded-lg flex justify-center items-center  mx-8 pb-1r4">
-                  <div>{project?.status}</div>
+                <div className="bg-green-700 text-white w-[100px] h-[30px] lg:mt-10  rounded-lg flex justify-center items-center mx-8 pb-1">
+                  {project?.status}
                 </div>
               </div>
 
