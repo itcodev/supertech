@@ -3,12 +3,12 @@ const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
 const { userAuthorization } = require("../middlewares/auth.middleware");
 const {
-  getLeads,
   getCarierById,
   getMediaById,
   insertProject,
   insertMedia,
   insertCarier,
+  insertLeads,
   generateProjectId,
 } = require("../model/leads/leads.model");
 const { getProject } = require("../model/leads/leads.model");

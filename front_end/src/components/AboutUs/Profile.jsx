@@ -29,7 +29,7 @@ const Profile = () => {
     axios
       .get("http://localhost:3001/v1/leads/leads-Info")
       .then((response) => {
-        const resy = response.data.data;
+        const resy = response.data.leads;
         console.log(resy);
         setRes(resy)
         // setTitles(res);
@@ -65,7 +65,7 @@ const Profile = () => {
       <div className="flex flex-col lg:bg-gray-300 h-auto ">
       <div className="w-full h-auto">
         <img
-          src={`http://localhost:3001/${res[2]?.cover}`} // Replace with the correct URL
+          src={`http://localhost:3001/${res[0]?.cover}`} // Replace with the correct URL
           alt={res?.title}
           className="w-full h-[500px] object-cover"
         />

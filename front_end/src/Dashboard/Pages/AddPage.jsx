@@ -1,29 +1,28 @@
 import React, { useState } from "react";
-import { Form, Input, message, Upload } from "antd";
+import { Form, Input, message, Upload,Select } from "antd";
 import { Button } from "antd";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-
-
 import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+const { Option } = Select;
 const AddPage = () => {
   const nav = useNavigate();
   const [form] = Form.useForm();
   const [selectedFile, setSelectedFile] = useState(null);
-  const [content, setContent] = useState("");
+
+
+  const [categories, setCategories] = useState([
+    "Profile",
+    "Future Plan",
+    "Csr",
+    "Quality Policy",
+    "History",
+  ]);
+
 
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
-  };
-
-
-  const handleContentChange = (event, editor) => {
-    const data = editor.getData();
-    setContent(data); // Set the entire data object
   };
 
   const onFinish = async (values) => {
@@ -32,7 +31,7 @@ const AddPage = () => {
       formData.append("cover", selectedFile);
       formData.append("title", values.title);
       formData.append("content", values.content);
-
+      formData.append("category", values.category);
       const response = await axios.post(
         "http://localhost:3001/v1/leads/leads-info",
         formData,
@@ -45,7 +44,7 @@ const AddPage = () => {
 
       if (response.status === 200) {
         message.success("Successfully Added");
-        nav("/dashboard/page");
+        nav("/dashboard");
       } else {
         console.log("Error occurred");
       }
@@ -76,6 +75,24 @@ const AddPage = () => {
               />
             </div>
 
+
+
+
+            <div className="w-[550px]">
+              <label htmlFor="category">Select Category</label>
+              <Form.Item name="category">
+                <Select placeholder="Select Category">
+                  {categories.map((category) => (
+                    <Option key={category} value={category}>
+                      {category}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </div>
+
+            
+
             <div className="w-[550px] ">
               <label htmlFor="title">Add Title</label>
               <Form.Item name="title">
@@ -84,16 +101,12 @@ const AddPage = () => {
             </div>
           </div>
 
-          <div className="w-[550px] ">
-                <label htmlFor="content">Description</label>
-                <Form.Item name="content">
-                  <CKEditor
-                    editor={ClassicEditor}
-                    data={content}
-                    onChange={handleContentChange}
-                  />
-                </Form.Item>
-              </div>
+          <div className="w-[550px]">
+            <label htmlFor="content">Content</label>
+            <Form.Item name="content">
+              <Input.TextArea placeholder=" content" />
+            </Form.Item>
+          </div>
 
           <div className="flex justify-center items-center">
             <button

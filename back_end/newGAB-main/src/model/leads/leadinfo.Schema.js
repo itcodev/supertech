@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 
 const LeadInfoSchema = new mongoose.Schema({
-  leadInfoId:{
-    type: String,
-    required: true,
-    unique: true
-  },
   title: {
     type: String,
     required: true

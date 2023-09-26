@@ -33,7 +33,7 @@ const FuturePlan = () => {
     axios
       .get("http://localhost:3001/v1/leads/leads-Info")
       .then((response) => {
-        const resy = response.data.data;
+        const resy = response.data.leads;
         console.log(resy);
         setRes(resy);
         // setTitles(res);
