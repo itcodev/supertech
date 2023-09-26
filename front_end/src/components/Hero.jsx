@@ -80,7 +80,7 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className=" md:hidden sm:flex hidden justify-between p-4 items-center bg-black opacity-95 rounded-lg mt-20">
+        {/* <div className=" md:hidden sm:flex hidden justify-between p-4 items-center bg-black opacity-95 rounded-lg mt-20">
           <div className="absolute mb-32">
             <img src={footer2} alt="" className="h-[80px]" />
           </div>
@@ -100,7 +100,7 @@ const Hero = () => {
             <p>Commercial</p>
           </div>
           </Link>
-        </div>
+        </div> */}
       </div>
 {/* 
 <div className=" lg:hidden md:hidden  ">
