@@ -1,22 +1,7 @@
 const ProjectSchema = require("./Staff.schema");
 const  MediaSchema  = require("./media.schema");
 const CarierSchema = require('../leads/carier.Schema')
-
-// Assuming you have a database connection and a User model defined
-
-// Function to get a user by ID from the database
-// const getUserById = async (userId) => {
-//     try {
-//       const user = await UserSchema.findById(userId);
-//       return user;
-//     } catch (error) {
-//       console.error('Error occurred while fetching user by ID:', error);
-//       throw new Error('Failed to fetch user by ID');
-//     }
-//   };
-  
- 
-  
+const LeadInfoSchema = require('../leads/leadinfo.Schema')
 
 
 //inset project
@@ -42,8 +27,7 @@ const insertProject = projectObj =>{
     })
    
 }
-
-
+//Insert Media
 const insertMedia = mediaObj =>{
 
     return new Promise((resolve,reject)=>{
@@ -66,9 +50,7 @@ const insertMedia = mediaObj =>{
     })
    
 }
-
-
-
+//Insert Carier
 const insertCarier = carierObj =>{
 
     return new Promise((resolve,reject)=>{
@@ -108,7 +90,7 @@ const getProject = () => {
     });
   };
 
-  //get project
+  //get media
 const getMedia = () => {
     return new Promise((resolve, reject) => {
       try {
@@ -125,7 +107,7 @@ const getMedia = () => {
     });
   };
 
-  //get project
+  //get carier
 const getCarier = () => {
     return new Promise((resolve, reject) => {
       try {
@@ -141,28 +123,27 @@ const getCarier = () => {
       }
     });
   };
-  
+//get project by id
   const getProjectById = (projectId) => {
     return ProjectSchema.findById(projectId, 'cover duration title category location area content image status').exec();
   };
-
+//get media by id
   const  getMediaById = (mediaId) => {
     return MediaSchema.findById(mediaId, 'cover title category content ')
       .exec()
   };
-  
-
+//get carier by id
   const getCarierById = (carierId) => {
     return CarierSchema.findById(carierId, 'cover duration title category location area content image status').exec();
   };
 
-
-// Function to generate a unique staff ID
+// generate a unique project ID
 function generateProjectId() {
     const prefix = 'S'; // Prefix for staff ID
     const randomNumber = Math.floor(100 + Math.random() * 900); // Generate a 3-digit random number
     return `${prefix}${randomNumber}`;
   }
+// generate a unique lead ID
 
 function generateLeadId() {
     const prefix = 'S'; // Prefix for staff ID
@@ -170,98 +151,12 @@ function generateLeadId() {
     return `${prefix}${randomNumber}`;
   }
 
-
-  function generateLeadMId() {
-    const prefix = 'S'; // Prefix for staff ID
-    const randomNumber = Math.floor(100 + Math.random() * 900); // Generate a 3-digit random number
-    return `${prefix}${randomNumber}`;
-  }
-//inset categories
-const insertCat = catOBJ =>{
-
-    return new Promise((resolve,reject)=>{
-        try {
-            LeadCategorySchema(catOBJ)
-            .save()
-            .then((data)=>{
-                resolve(data)
-                
-            })
-            .catch((error)=>{
-                reject(error)
-            })
-        
-        } catch (error) {
-
-            reject(error)
-            
-        }
-    })
-   
-}
-
-const getCust = async (userId, fields) => {
-    try {
-      // Your database query logic here to fetch the specified fields for the given userId
-      // Modify the code according to your specific database implementation
-      const result = await customerSchema.find({ clientId: userId }).select(fields.join(' '));
-  
-      return result;
-    } catch (error) {
-      throw new Error("Unable to retrieve customer information");
-    }
-  };
-  
-
-//inset customer
-const insertCust = custObj =>{
-
-    return new Promise((resolve,reject)=>{
-        try {
-            customerSchema(custObj)
-            .save()
-            .then((data)=>{
-                resolve(data)
-                
-            })
-            .catch((error)=>{
-                reject(error)
-            })
-        
-        } catch (error) {
-
-            reject(error)
-            
-        }
-    })
-   
-}
-
-
-
-// Function to generate the leads report
-function generateLeadsReport(leads) {
-    // Perform necessary calculations and formatting to generate the report
-    const report = {
-      totalLeads: leads.length,
-      leads: leads.map(lead => ({
-        id: lead.id,
-        name: lead.name,
-        email: lead.email,
-        status: lead.status,
-        closed: lead.closed
-      }))
-    };
-  
-    return report;
-  }
-
 //inset leads
-const insertLeads = leadsObj =>{
+const insertLeads = leadObj =>{
 
     return new Promise((resolve,reject)=>{
         try {
-            LeadsSchema(leadsObj)
+            LeadInfoSchema(leadObj)
             .save()
             .then((data)=>{
                 resolve(data)
@@ -280,77 +175,28 @@ const insertLeads = leadsObj =>{
    
 }
 
-//inset user leads
-const insertUserLeads = leadsUserObj =>{
-
-    return new Promise((resolve,reject)=>{
-        try {
-            LeadsSchema(leadsUserObj)
-            .save()
-            .then((data)=>{
-                resolve(data)
-                
-            })
-            .catch((error)=>{
-                reject(error)
-            })
-        
-        } catch (error) {
-
-            reject(error)
-            
-        }
-    })
-   
-}
-
-//get Leads
-const getLeads = clientId =>{
-
-    return new Promise((resolve,reject)=>{
-        try {
-            LeadsSchema
-            .find({clientId})
-            .then((data)=>{
-                resolve(data)
-                
-            })
-            .catch((error)=>{
-                reject(error)
-            })
-        
-        } catch (error) {
-
-            reject(error)
-            
-        }
-    })
-   
-}
+//get leads
+const getleads = () => {
+    return new Promise((resolve, reject) => {
+      try {
+        LeadInfoSchema.find({}, 'cover title category content ')
+          .then(leads => {
+            resolve(leads);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
 
 //get Leads by id
-const getLeadsById = (_id,clientId) =>{
-
-    return new Promise((resolve,reject)=>{
-        try {
-            LeadsSchema
-            .findOne({_id,clientId})
-            .then((data)=>{
-                resolve(data)
-                
-            })
-            .catch((error)=>{
-                reject(error)
-            })
-        
-        } catch (error) {
-
-            reject(error)
-            
-        }
-    })
-   
-}
+const  getLeadsById = (leadInfoId) => {
+    return LeadInfoSchema.findById(leadInfoId, 'cover title category content ')
+      .exec()
+  };
 
 //update Leads
 const updateClientReply = ({_id,message,sender}) =>{
@@ -376,35 +222,6 @@ const updateClientReply = ({_id,message,sender}) =>{
                 resolve(data)
                 
             })
-            .catch((error)=>{
-                reject(error)
-            })
-        
-        } catch (error) {
-
-            reject(error)
-            
-        }
-    })
-   
-}
-
-//update close Leads
-const  updateStatusClose = ({_id,clientId}) =>{
-
-    return new Promise((resolve,reject)=>{
-        try {
-            LeadsSchema.findOneAndUpdate(
-                {_id, clientId},
-                {
-                    status:"closed",
-                },
-                {new:true}
-            
-            )
-            .then((data)=>{
-                resolve(data)
-                })
             .catch((error)=>{
                 reject(error)
             })
@@ -444,48 +261,22 @@ const  deleteLead = ({_id,clientId}) =>{
     })
    
 }
-
-async function getStaffByDepartment(department) {
-    try {
-      const staffMembers = await StaffSchema.find({ department: department }).exec();
-      return staffMembers;
-    } catch (error) {
-      console.error('Error occurred while retrieving staff members:', error);
-      throw error;
-    }
-  }
-  
-
-  
-  
 //exports 
 module.exports={
     insertLeads,
-    getLeads,
     getLeadsById,
     updateClientReply,
-    updateStatusClose,
     deleteLead,
-    insertUserLeads,
-    generateLeadsReport,
     insertProject,
-    insertCust,
-    insertCat,
     insertMedia,
     insertCarier,
-
-
- getMedia,
- getMediaById,
- getCarierById,
- getProjectById,
-
+    getMedia,
+    getleads,
+    getMediaById,
+    getCarierById,
+    getProjectById,
     getProject,
-    // getMedia,
     getCarier,
     generateProjectId,
-    getCust,
     generateLeadId,
-    generateLeadMId,
-    getStaffByDepartment
 }

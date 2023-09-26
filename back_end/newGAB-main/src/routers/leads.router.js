@@ -14,7 +14,12 @@ const {
 const { getProject } = require("../model/leads/leads.model");
 const { getMedia } = require("../model/leads/leads.model");
 const { getCarier } = require("../model/leads/leads.model");
+const { getleads } = require("../model/leads/leads.model");
 const {getProjectById} = require('../model/leads/leads.model')
+const {getLeadsById} = require('../model/leads/leads.model')
+
+
+
 const mongoose = require("mongoose");
 const multer = require("multer");
 const path = require("path");
@@ -72,40 +77,6 @@ router.post('/project', upload1.fields([{ name: "cover" }, { name: "image" }]), 
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
-
-//duplicate confirmation here
-router.post('/project', upload1.fields([{ name: "cover" }, { name: "image" }]), async (req, res) => {
-  try {
-    const { title, category, location, vedio, budget, content, status } = req.body;
-    const projectId = generateProjectId();
-
-    // Access the uploaded files using req.files["cover"] and req.files["image"]
-    const coverFilePath = req.files["cover"] ? `${req.files["cover"][0].filename}` : null;
-    const imageFilePath = req.files["image"] ? `${req.files["image"][0].filename}` : null;
-
-    // Create a new project object
-    const projectObj = {
-      cover: coverFilePath,
-      title,
-      category,
-      location,
-      image: imageFilePath,
-      budget,
-      content,
-      status
-    };
-
-    // Save the project object in the database
-    const savedProject = await insertProject(projectObj);
-
-    return res.json({ message: 'Project data saved successfully', project: savedProject });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
 
 // get project->
 router.get('/project', async (req, res) => {
@@ -243,19 +214,6 @@ router.get("/media", async (req, res) => {
   }
 });
 
-//duplicate confirmation
-router.get('/media', async (req, res) => {
-  try {
-    // Retrieve project information
-    const media = await getMedia();
-
-    return res.json({ media });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
 
 //get media on the base of id :
 router.get('/media/:mediaId', async (req, res) => {
@@ -272,15 +230,46 @@ router.get('/media/:mediaId', async (req, res) => {
   }
 });
 
-//duplicate confirmation
-router.get('/media/:mediaId', async (req, res) => {
+//lead info route
+// API route to save lead-info
+router.post("/leads-info", upload1.single('cover'), async (req, res) => {
+  const fileName = req.file.filename; // Get the filename of the uploaded image
+
+  const {
+    title,
+    content,
+    category,
+
+  } = req.body;
+
+  try {
+    const leadInfoId = uuidv4();
+
+    // Create a new media object
+    const leadObj = {
+      cover: fileName,
+      title,
+      category,
+      content,
+    };
+
+    // Save the project object in the database
+    const savedLeads = await insertLeads(leadObj);
+
+    return res.json({ message: 'Leads data saved successfully', lead: savedLeads });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// get leads-info->
+router.get('/leads-info', async (req, res) => {
   try {
     // Retrieve project information
+    const leads = await getleads();
 
-    const mediaId = req.params.mediaId;
-    const media = await getMediaById(mediaId);
-
-    return res.json({ media });
+    return res.json({ leads });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: 'Internal server error' });
@@ -288,47 +277,21 @@ router.get('/media/:mediaId', async (req, res) => {
 });
 
 
-//lead info route
-// API route to save lead-info
-router.post("/leads-info", upload.single('cover'), async (req, res) => {
-  const { title, content } = req.body;
-
+//get leads on the base of id :
+router.get('/lead-info/:leadInfoId', async (req, res) => {
   try {
-    const leadInfoId = uuidv4();
-    const fileName = req.file.filename; // Get the filename of the uploaded image
+    // Retrieve media information
 
-    // Create a new LeadInfo instance with just the filename and other data
-    const leadInfo = new leadinfoSchema({
-      title,
-      cover: fileName, // Store only the filename, not the folder path
-      content,
-      leadInfoId,
-    });
+    const leadInfoId = req.params.leadInfoId;
+    const lead = await getLeadsById(leadInfoId);
 
-    await leadInfo.save();
-
-    res.status(200).json({ message: "Lead information saved successfully" });
+    return res.json({ lead });
   } catch (error) {
-    console.error("Error saving lead information:", error);
-    res.status(500).json({ error: "Error saving lead information" });
+    console.log(error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-//get leads-info
-router.get("/leads-Info", async (req, res) => {
-  try {
-    // Fetch specific fields from the lead information
-    const leadFields = await leadinfoSchema.find({}, "title cover content");
-
-    res.json({
-      status: "success",
-      data: leadFields,
-    });
-  } catch (error) {
-    console.error("Error fetching lead information:", error);
-    res.status(500).json({ error: "Error fetching lead information" });
-  }
-});
 
 //edit lead
 router.put("/leads-Info/:leadInfoId", upload.single("attachment"), async (req, res) => {
@@ -458,34 +421,7 @@ router.post("/carier", upload1.single('cover'), async (req, res) => {
   }
 });
 
-//duplicate confirmation
-router.post("/carier", upload.single('cover'), async (req, res) => {
-  const {
-    title,
-    content,
-  } = req.body;
 
-  try {
-    const leadInfoId = uuidv4();
-
-    // Create a new LeadInfo instance with the uploaded file path and other data
-    const carier = new CarierSchema({
-      title,
-      cover: req.file.path, // Store the path to the uploaded image
-      content,
-      leadInfoId,
-    });
-
-    await carier.save();
-
-    res.status(200).json({ message: "Carier saved successfully" });
-  } catch (error) {
-    console.error("Error saving carier:", error);
-    res.status(500).json({ error: "Error saving carier" });
-    console.error(error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
 
 //get carier
 router.get("/carier", async (req, res) => {
