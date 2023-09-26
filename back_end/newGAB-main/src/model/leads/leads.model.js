@@ -1,7 +1,4 @@
 const ProjectSchema = require("./Staff.schema");
-const customerSchema = require("./customer.Schema");
-const LeadCategorySchema = require("./category.Schema");
-const { LeadsSchema } = require("./leads.schema");
 const  MediaSchema  = require("./media.schema");
 const CarierSchema = require('../leads/carier.Schema')
 

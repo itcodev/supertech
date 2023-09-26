@@ -114,8 +114,7 @@ const FuturePlan = () => {
                           selectedCategory === "History")||
                           (item.title === "Csr" &&
                             selectedCategory === "Csr")
-                          
-                          
+
                           ) &&
                       res
                         .filter((title) => title.category === selectedCategory)
@@ -125,7 +124,7 @@ const FuturePlan = () => {
                             className={`text-white lg:bg-black h-auto text-lg`}
                           >
                             <Link
-                              to={`/media/${title._id}`}
+                              to={`/about/${title._id}`}
                               className="p-2 flex items-center hover:shadow-lg hover:bg-white hover:text-orange-500 hover:w-full"
                             >
                               {title.title}

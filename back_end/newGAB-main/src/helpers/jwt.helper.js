@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const { storeUserRefreshJWT } = require('../model/user/User.model');
 const { setJWT, getJWT } = require('./redis.helper');
 const dotenv = require('dotenv').config();
 
