@@ -65,7 +65,7 @@ const  Csr = () => {
       <div className="flex flex-col bg-gray-200 h-auto">
         <div className="w-full h-auto">
           <img
-            src={`http://localhost:3001/${res[0]?.cover}`} // Replace with the correct URL
+            src={`http://localhost:3001/${res[2]?.cover}`} // Replace with the correct URL
             alt={res[0]?.title}
             className="w-full h-[500px] object-cover"
           />
@@ -171,8 +171,9 @@ const  Csr = () => {
               </div>
               {/* <div className="px-6 md:mx-10"> */}
               <div className="text-3xl font-bold lg:mt-6 mt-4 px-6 mx-6">
-                {res.length > 0 ? res[0].title : "fh"}
+                {res.length > 0 ? res[2].title : "fh"}
               </div>
+              <div className=" text-justify mt-6 mx-12 mb-12">{res.length > 0 ? res[2].content : "content"}</div>
 
             </div>
           </div>

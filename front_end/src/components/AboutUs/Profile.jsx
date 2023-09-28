@@ -135,7 +135,7 @@ const Profile = () => {
                 )}
               </div>
               <div className="px-6 md:mx-10">
-                <div className="text-3xl font-bold lg:mt-6 mt-4">{res.length > 0 ? res[2].title : "fh"}</div>
+                <div className="text-3xl font-bold lg:mt-6 mt-4">{res.length > 0 ? res[2].title : "title?"}</div>
                 <p className=" text-justify mt-6">
                   Supertech Industries Limited, Bangladesh’s leading real estate
                   developer was founded 13 years back in National Capital Region

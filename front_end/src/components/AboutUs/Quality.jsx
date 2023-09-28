@@ -65,8 +65,8 @@ const Quality = () => {
       <div className="flex flex-col bg-gray-200 h-auto">
         <div className="w-full h-auto">
           <img
-            src={`http://localhost:3001/${res[0]?.cover}`} // Replace with the correct URL
-            alt={res[0]?.title}
+            src={`http://localhost:3001/${res[3]?.cover}`} // Replace with the correct URL
+            alt={res[3]?.title}
             className="w-full h-[500px] object-cover"
           />
         </div>
@@ -126,6 +126,7 @@ const Quality = () => {
                               to={`/about/${title._id}`}
                               className="p-2 flex items-center hover:shadow-lg hover:bg-white hover:text-orange-500 hover:w-full"
                             >
+                              
                               {title.title}
                             </Link>
                           </div>
@@ -172,8 +173,9 @@ const Quality = () => {
               </div>
               {/* <div className="px-6 md:mx-10"> */}
               <div className="text-3xl font-bold lg:mt-6 mt-4 px-6 mx-6">
-                {res.length > 0 ? res[0].title : "fh"}
+                {res.length > 0 ? res[3].title : "fh"}
               </div>
+              <div className=" text-justify mt-6 mx-12 mb-12">{res.length > 0 ? res[3].content : "content"}</div>
 
             </div>
           </div>

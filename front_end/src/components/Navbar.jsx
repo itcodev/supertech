@@ -64,7 +64,7 @@ const Navbar = () => {
                     >
                       <div className="flex ">
                         <a
-                          href={`${nav.url}`}
+                          onClick={() => toggleSubmenu(nav.id)}
                           className="border-b border-dotted border-white py-2 w-full"
                         >
                           {nav.title}

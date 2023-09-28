@@ -14,6 +14,7 @@ const History = () => {
   const [res, setRes] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null); // New state for selected category
 
+
   // Find the "About" menu from the navLinks constant
   const aboutMenu = navLinks.find((item) => item.id === "about");
 
@@ -65,7 +66,7 @@ const History = () => {
       <div className="flex flex-col bg-gray-200 h-auto">
         <div className="w-full h-auto">
           <img
-            src={`http://localhost:3001/${res[0]?.cover}`} // Replace with the correct URL
+            src={`http://localhost:3001/${res[1]?.cover}`} // Replace with the correct URL
             alt={res[0]?.title}
             className="w-full h-[500px] object-cover"
           />
@@ -107,13 +108,11 @@ const History = () => {
                         selectedCategory === "Quality") ||
                         (item.title === "Profile" &&
                           selectedCategory === "Profile") ||
-
-                          (item.title === "Future Plan" &&
-                        selectedCategory === "Future Plan") ||
+                        (item.title === "Future Plan" &&
+                          selectedCategory === "Future Plan") ||
                         (item.title === "History" &&
-                          selectedCategory === "History")||
-                          (item.title === "Csr" &&
-                            selectedCategory === "Csr")) &&
+                          selectedCategory === "History") ||
+                        (item.title === "Csr" && selectedCategory === "Csr")) &&
                       res
                         .filter((title) => title.category === selectedCategory)
                         .map((title) => (
@@ -171,9 +170,9 @@ const History = () => {
               </div>
               {/* <div className="px-6 md:mx-10"> */}
               <div className="text-3xl font-bold lg:mt-6 mt-4 px-6 mx-6">
-                {res.length > 0 ? res[0].title : "fh"}
+                {res.length > 0 ? res[1].title : "title"}
               </div>
-
+              <div className=" text-justify mt-6 mx-12 mb-12">{res.length > 0 ? res[1].content : "content"}</div>
             </div>
           </div>
         </div>

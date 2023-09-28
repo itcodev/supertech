@@ -65,8 +65,8 @@ const FuturePlan = () => {
       <div className="flex flex-col bg-gray-200 h-auto">
         <div className="w-full h-auto">
           <img
-            src={`http://localhost:3001/${res[0]?.cover}`} // Replace with the correct URL
-            alt={res[0]?.title}
+            src={`http://localhost:3001/${res[4]?.cover}`} // Replace with the correct URL
+            alt={res[4]?.title}
             className="w-full h-[500px] object-cover"
           />
         </div>
@@ -139,6 +139,8 @@ const FuturePlan = () => {
         <div className="bg-white shadow-xl lg:mx-44">
           <div className="flex flex-col h-auto m-0">
             <div>
+
+              {/*code for mobile devices */} 
               <div className="sm:flex relative lg:absolute flex-col px-6  ">
                 <div className=" sm:flex flex gap-2 bg-slate-400 rounded md:mx-8  mt-2">
                   <img
@@ -173,8 +175,9 @@ const FuturePlan = () => {
               </div>
               {/* <div className="px-6 md:mx-10"> */}
               <div className="text-3xl font-bold lg:mt-6 mt-4 px-6 mx-6">
-                {res.length > 0 ? res[0].title : "fh"}
+                {res.length > 0 ? res[4].title : "fh"}
               </div>
+              <div className=" text-justify mt-6 mx-12 mb-12">{res.length > 0 ? res[4].content : "content"}</div>
 
             </div>
           </div>
