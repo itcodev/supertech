@@ -11,7 +11,12 @@ import footer2 from "../../assets/footer2.png";
 const Quality = () => {
   const [openSubMenuId, setOpenSubMenuId] = useState(null);
   const [toggle, setToggle] = useState(false);
+  const [toggleAgain, setToggleAgain] = useState(false);
+  const [openAgainMenuId, setOpenAgainMenuId] = useState(null);
+
   const [res, setRes] = useState([]);
+
+
   const [selectedCategory, setSelectedCategory] = useState(null); // New state for selected category
 
   // Find the "About" menu from the navLinks constant
@@ -136,7 +141,7 @@ const Quality = () => {
               ))}
           </div>
         </div>
-        <div className="bg-white shadow-xl lg:mx-44">
+        <div className="bg-white shadow-xl lg:mx-44 h-[500px]">
           <div className="flex flex-col h-auto m-0">
             <div>
               <div className="sm:flex relative lg:absolute flex-col px-6  ">
@@ -154,30 +159,69 @@ const Quality = () => {
                 {toggle && (
                   <div className="bg-white text-black p-2 md:mx-10 mx-2">
                     {aboutSubmenuItems &&
-                      aboutSubmenuItems.map((item, index) => (
+                      aboutSubmenuItems.map((item) => (
                         <div
                           key={item.id}
-                          className={`hover:bg-white hover:text-black ${
-                            index < aboutSubmenuItems.length - 1
-                              ? "border-b border-black border-dotted"
+                          className={`bg-white text-black h-auto text-lg ${
+                            setOpenAgainMenuId === item.id
+                              ? "bg-black text-yellow-500"
                               : ""
                           }`}
+                          onClick={() => handleCategoryClick(item.title)}
                         >
-                          <Link to={item.url} className="block py-2">
-                            {item.title}
-                          </Link>
+                          <span>{item.title}</span>
+                          <div className="mt-1 absolute">
+                            {/* Render the list of titles based on the selected category and item title */}
+                            {selectedCategory &&
+                              ((item.title === "Quality" &&
+                                selectedCategory === "Quality") ||
+                                (item.title === "Profile" &&
+                                  selectedCategory === "Profile") ||
+                                (item.title === "Future Plan" &&
+                                  selectedCategory === "Future Plan") ||
+                                (item.title === "History" &&
+                                  selectedCategory === "History") ||
+                                (item.title === "Csr" &&
+                                  selectedCategory === "Csr")) &&
+                              res
+                                .filter(
+                                  (title) => title.category === selectedCategory
+                                )
+                                .map((title) => (
+                                  <div
+                                    key={title.id}
+                                    className={`text-white bg-black h-auto text-lg`}
+                                  >
+                                    <Link
+                                      to={`/about/${title._id}`}
+                                      className="p-2 flex items-center h-auto hover:text-orange-700"
+                                    >
+                                      {title.title}
+                                    </Link>
+                                  </div>
+                                ))}
+                          </div>
                         </div>
                       ))}
                   </div>
                 )}
               </div>
-              {/* <div className="px-6 md:mx-10"> */}
-              <div className="text-3xl font-bold lg:mt-6 mt-4 px-6 mx-6">
-                {res.length > 0 ? res[3].title : "fh"}
-              </div>
-              <div className=" text-justify mt-6 mx-12 mb-12">{res.length > 0 ? res[3].content : "content"}</div>
 
+              <div className="px-6 md:mx-10">
+                <div className="text-2xl font-bold lg:mt-6 mt-4">
+                  {res.length > 0 ? res[3].title : "title?"}
+                </div>
+
+                <p className=" text-justify mt-6">
+                  Company's foray into real estate and construction industry led
+                  to the creation of various landmark real estate projects -
+                  Supertech Business Tower, Falcon Supertech, Hotel Sultan,
+                  Supertech Duplex Town, Hotel Grand Noor, (ROB) Flyover Street
+                  lighting. are few examples.
+                </p>
+              </div>
             </div>
+            {/* <div className="px-6 md:mx-10"> */}
           </div>
         </div>
       </div>
