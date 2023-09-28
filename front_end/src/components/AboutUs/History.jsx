@@ -4,11 +4,15 @@ import { Link } from "react-router-dom";
 import { navLinks } from "../../constants";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
-import home3 from "../../assets/History 2.png";
+import home3 from "../../assets/BusinessQuaries.png";
+import axios from "axios";
 import menu from "../../assets/menu.svg";
 import footer2 from "../../assets/footer2.png";
 const History = () => {
+  const [openSubMenuId, setOpenSubMenuId] = useState(null);
   const [toggle, setToggle] = useState(false);
+  const [res, setRes] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null); // New state for selected category
 
   // Find the "About" menu from the navLinks constant
   const aboutMenu = navLinks.find((item) => item.id === "about");
@@ -19,6 +23,27 @@ const History = () => {
   const toggleMenu = () => {
     setToggle((prev) => !prev);
   };
+
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category); // Set the selected category when a category is clicked
+  };
+
+  useEffect(() => {
+    // Fetch data from the backend
+    axios
+      .get("http://localhost:3001/v1/leads/leads-Info")
+      .then((response) => {
+        const resy = response.data.leads;
+        console.log(resy);
+        setRes(resy);
+        // setTitles(res);
+        // setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        // setLoading(false);
+      });
+  }, []);
 
   useEffect(() => {
     // Add a listener for the resize event
@@ -39,19 +64,25 @@ const History = () => {
       <Navbar />
       <div className="flex flex-col bg-gray-200 h-auto">
         <div className="w-full h-auto">
-          <img src={home3} alt="image" className="w-full lg:h-[550px]  md:h-[300px] object-cover" />
+          <img
+            src={`http://localhost:3001/${res[0]?.cover}`} // Replace with the correct URL
+            alt={res[0]?.title}
+            className="w-full h-[500px] object-cover"
+          />
         </div>
-
         <div className="absolute flex mt-[73px]">
           {/* <div>
             <img src={footer2} alt="image" className="lg:w-[150px] lg:h-[150px] ml-2 w-[80px] h-[80px]" />
           </div> */}
           <div className="text-white lg:text-1xl text-sm ml-6  text-shadow-lg  font-serif ">
-            <Link to="/" className="underline hover:text-orange-600 shadow-2xl ">
+            <Link
+              to="/"
+              className="underline hover:text-orange-600 shadow-2xl "
+            >
               Home
             </Link>
 
-            <span className="ml-4 "> / About Us / Profile</span>
+            <span className="ml-4 "> / About / Hitory</span>
           </div>
         </div>
 
@@ -65,26 +96,58 @@ const History = () => {
               aboutSubmenuItems.map((item) => (
                 <div
                   key={item.id}
-                  className=" hover:bg-white hover:text-black "
+                  className={`hover:bg-white hover:text-black cursor-pointer bg-black`}
+                  onClick={() => handleCategoryClick(item.title)}
                 >
-                  <Link to={item.url}>{item.title}</Link>
+                  <span>{item.title}</span>
+                  <div className="mt-3 absolute">
+                    {/* Render the list of titles based on the selected category and item title */}
+                    {selectedCategory &&
+                      ((item.title === "Quality" &&
+                        selectedCategory === "Quality") ||
+                        (item.title === "Profile" &&
+                          selectedCategory === "Profile") ||
+
+                          (item.title === "Future Plan" &&
+                        selectedCategory === "Future Plan") ||
+                        (item.title === "History" &&
+                          selectedCategory === "History")||
+                          (item.title === "Csr" &&
+                            selectedCategory === "Csr")) &&
+                      res
+                        .filter((title) => title.category === selectedCategory)
+                        .map((title) => (
+                          <div
+                            key={title.id}
+                            className={`text-white lg:bg-black h-auto text-lg`}
+                          >
+                            <Link
+                              to={`/about/${title._id}`}
+                              className="p-2 flex items-center hover:shadow-lg hover:bg-white hover:text-orange-500 hover:w-full"
+                            >
+                              {title.title}
+                            </Link>
+                          </div>
+                        ))}
+                  </div>
                 </div>
-              ))}1
+              ))}
           </div>
         </div>
         <div className="bg-white shadow-xl lg:mx-44">
           <div className="flex flex-col h-auto m-0">
             <div>
-              <div className="md:flex relative lg:absolute flex-col px-6 ">
-              <div className=" sm:flex flex gap-2 bg-slate-400 rounded md:mx-8  mt-2">
-
+              <div className="sm:flex relative lg:absolute flex-col px-6  ">
+                <div className=" sm:flex flex gap-2 bg-slate-400 rounded md:mx-8  mt-2">
                   <img
                     src={menu}
-                    alt="menu" 
+                    alt="menu"
                     className="md:w-[60px] md:h-[60px] w-[30px] h-[30px] object-contain lg:hidden"
                     onClick={toggleMenu}
                   />
-                  <p className="text-white lg:hidden md:text-2xl text-lg md:mt-2">Menu</p>
+                  <p className="text-white lg:hidden md:text-2xl text-lg md:mt-2">
+                    Menu
+                  </p>
                 </div>
                 {toggle && (
                   <div className="bg-white text-black p-2 md:mx-10 mx-2">
@@ -106,29 +169,14 @@ const History = () => {
                   </div>
                 )}
               </div>
-              <div className="px-6 md:mx-10">
-                <div className="text-3xl font-bold lg:mt-6 mt-4">History</div>
+              {/* <div className="px-6 md:mx-10"> */}
+              <div className="text-3xl font-bold lg:mt-6 mt-4 px-6 mx-6">
+                {res.length > 0 ? res[0].title : "fh"}
+              </div>
 
-              <p className=" text-justify mt-6 ">
-                Supertech Industries Limited was founded in 2010. The company
-                has developed some of the modern and finest residential and
-                commercial complexes in Dhaka, National Capital Region (NCR) and
-                new urban settlements like Saver, Mirpur, Uttara and Rampura.
-                Since inception, the company has been responsible for the
-                development of many of Dhaka's other well known Bosundhara
-                housing.
-              </p>
-              <p className=" text-justify mt-6 mb-24 ">
-                Company's foray into real estate and construction industry led
-                to the creation of various landmark real estate projects -
-                Supertech Business Tower, Falcon Supertech, Hotel Sultan,
-                Supertech Duplex Town, Hotel Grand Noor, (ROB) Flyover Street
-                lighting. are few examples.
-              </p>
             </div>
           </div>
         </div>
-      </div>
       </div>
 
       <Footer />

@@ -14,7 +14,7 @@ const AddPage = () => {
   const [categories, setCategories] = useState([
     "Profile",
     "Future Plan",
-    "Csr",
+    "CSR",
     "Quality Policy",
     "History",
   ]);

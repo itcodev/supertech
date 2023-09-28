@@ -82,7 +82,7 @@ const FuturePlan = () => {
               Home
             </Link>
 
-            <span className="ml-4 "> / Media / News</span>
+            <span className="ml-4 "> / About / FuturePlan</span>
           </div>
         </div>
 
@@ -106,10 +106,10 @@ const FuturePlan = () => {
                       ((item.title === "Quality" &&
                         selectedCategory === "Quality") ||
                         (item.title === "Profile" &&
-                          selectedCategory === "Profile")
+                          selectedCategory === "Profile") ||
 
-                          (item.title === "Policies" &&
-                        selectedCategory === "Policies") ||
+                          (item.title === "Future Plan" &&
+                        selectedCategory === "Future Plan") ||
                         (item.title === "History" &&
                           selectedCategory === "History")||
                           (item.title === "Csr" &&
