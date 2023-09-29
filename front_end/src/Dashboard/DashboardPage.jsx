@@ -4,7 +4,6 @@ import {
   SettingOutlined,
   SolutionOutlined,
   UploadOutlined,
-  FundViewOutlined,
   AlignLeftOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
@@ -26,12 +25,12 @@ const DashBoardPage = () => {
 
   const handleMenuItem = (e) => {
     setOpen(false);
-    if (e.key === "/dashBoard") setpageTitle("Welcome Admin");
+    if (e.key === "/dashboard") setpageTitle("Welcome Admin");
     if (e.key === "pageadd") setpageTitle("Page Add");
     if (e.key === "pagelist") setpageTitle("page List");
-    // if (e.key === "addresidence") setpageTitle("Add Residence");
-    // if (e.key === "residencelist") setpageTitle("Residence List");
-    // if (e.key === "roomadd") setpageTitle("Room Add");
+    if (e.key === "project/interior") setpageTitle("Interior");
+    if (e.key === "project/residential") setpageTitle("Residential");
+    // Add more conditionals for other menu items if needed
     nav(e.key);
   };
 
@@ -48,17 +47,37 @@ const DashBoardPage = () => {
       icon: <UploadOutlined />,
       style: { fontSize: "15px" },
     },
-    // {
-    //   label: "Podrtfolio",
-    //   key: "haddlist",
-    //   icon: <SolutionOutlined />,
-    //   style: { fontSize: "15px" },
-    // },
     {
       label: "Project",
       key: "project",
       icon: <SolutionOutlined />,
       style: { fontSize: "15px" },
+      submenu: [
+        {
+          label: "Interior",
+          key: "/project/interior",
+          icon: <SolutionOutlined />,
+          style: { fontSize: "15px" },
+        },
+        {
+          label: "Residential",
+          key: "/project/residential",
+          icon: <SolutionOutlined />,
+          style: { fontSize: "15px" },
+        },
+        {
+          label: "Commercial",
+          key: "/project/commercial",
+          icon: <SolutionOutlined />,
+          style: { fontSize: "15px" },
+        },
+        {
+          label: "Consultancy",
+          key: "/project/consultancy",
+          icon: <SolutionOutlined />,
+          style: { fontSize: "15px" },
+        },
+      ],
     },
     {
       label: "Media",
@@ -119,8 +138,33 @@ const DashBoardPage = () => {
           onClick={handleMenuItem}
           theme="light"
           mode="vertical"
-          items={adminItems}
-        ></Menu>
+        >
+          {adminItems.map((item) =>
+            item.submenu ? (
+              <Menu.SubMenu
+                key={item.key}
+                title={
+                  <span>
+                    {item.icon}
+                    <span>{item.label}</span>
+                  </span>
+                }
+              >
+                {item.submenu.map((subitem) => (
+                  <Menu.Item key={subitem.key}>
+                    {subitem.icon}
+                    <span>{subitem.label}</span>
+                  </Menu.Item>
+                ))}
+              </Menu.SubMenu>
+            ) : (
+              <Menu.Item key={item.key}>
+                {item.icon}
+                <span>{item.label}</span>
+              </Menu.Item>
+            )
+          )}
+        </Menu>
       </Drawer>
       <Outlet />
       {/* <div className="bg-red-800 h-5 w-screen  bottom-1"></div> */}

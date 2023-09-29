@@ -80,7 +80,7 @@ const App = () => {
       <Route exact path="/projects/:projectId" element={<ProjectDetail />} />
       <Route exact path="/media/:mediaId" element={<Mediadetail />} />
       <Route exact path="/carier/:carierId" element={<Carierdetail />} />
-      <Route exact path="/about/:aboutId" element={<Aboutdetail />} />
+      <Route exact path="/lead-info/:leadInfoId" element={<Aboutdetail />} />
 
 
 

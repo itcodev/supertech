@@ -9,7 +9,7 @@ import Footer from "./Footer";
 import menu from "../assets/menu.svg";
 // import footer2 from "../../assets/footer2.png";
 const Aboutdetail = () => {
-    const { aboutId } = useParams();
+    const { leadInfoId } = useParams();
     const [toggle, setToggle] = useState(false);
     const [about, setAbout] = useState([]);
 
@@ -22,15 +22,15 @@ const Aboutdetail = () => {
   const toggleMenu = () => {
     setToggle((prev) => !prev);
   };
-
+  // /lead-info/:leadInfoId
 
 
   useEffect(() => {
     // Fetch project details based on projectId from the API
     axios
-      .get(`http://localhost:3001/v1/leads/about/${aboutId}`)
+      .get(`http://localhost:3001/v1/leads/lead-info/${leadInfoId}`)
       .then((reponse) => {
-        const about = reponse.data.about;
+        const about = reponse.data.lead;
 
 
         console.log(about);
@@ -42,7 +42,7 @@ const Aboutdetail = () => {
         console.error("Error fetching project details:", error);
         // setLoading(false);
       });
-  }, [aboutId]);
+  }, [leadInfoId]);
 
   useEffect(() => {
     const handleaboutsize = () => {
