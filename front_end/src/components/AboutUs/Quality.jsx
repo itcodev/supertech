@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 import { navLinks } from "../../constants";
@@ -9,6 +10,8 @@ import axios from "axios";
 import menu from "../../assets/menu.svg";
 import footer2 from "../../assets/footer2.png";
 const Quality = () => {
+  const nav = useNavigate();
+
   const [openSubMenuId, setOpenSubMenuId] = useState(null);
   const [toggle, setToggle] = useState(false);
   const [toggleAgain, setToggleAgain] = useState(false);
@@ -100,10 +103,13 @@ const Quality = () => {
             {aboutSubmenuItems &&
               aboutSubmenuItems.map((item) => (
                 <div
-                  key={item.id}
-                  className={`hover:bg-white hover:text-black cursor-pointer bg-black`}
-                  onClick={() => handleCategoryClick(item.title)}
-                >
+                key={item.id}
+                className={`hover:bg-white hover:text-black cursor-pointer bg-black`}
+                onClick={() => {
+                  handleCategoryClick(item.title); // Call the first function
+                  nav(item.url)
+                }}
+              >
                   <span>{item.title}</span>
                   <div className="mt-3 absolute">
                     {/* Render the list of titles based on the selected category and item title */}
@@ -128,7 +134,7 @@ const Quality = () => {
                             className={`text-white lg:bg-black h-auto text-lg`}
                           >
                             <Link
-                              to={`/about/${title._id}`}
+                              to={`/lead-info/${title._id}`}
                               className="p-2 flex items-center hover:shadow-lg hover:bg-white hover:text-orange-500 hover:w-full"
                             >
                               
@@ -193,7 +199,7 @@ const Quality = () => {
                                     className={`text-white bg-black h-auto text-lg`}
                                   >
                                     <Link
-                                      to={`/about/${title._id}`}
+                                      to={`/lead-info/${title._id}`}
                                       className="p-2 flex items-center h-auto hover:text-orange-700"
                                     >
                                       {title.title}
