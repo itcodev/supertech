@@ -10,6 +10,8 @@ const {
   insertCarier,
   insertLeads,
   generateProjectId,
+  deleteProjectById,
+  updateProjectById,
 } = require("../model/leads/leads.model");
 const { getProject } = require("../model/leads/leads.model");
 const { getMedia } = require("../model/leads/leads.model");
@@ -106,45 +108,19 @@ router.get('/project/:projectId', async (req, res) => {
   }
 });
 
-//edit project 
+//update/edit project
 router.put('/project/:projectId', async (req, res) => {
   try {
     const { projectId } = req.params;
-    const { cover, title, category, location, vedio ,image,budget,content,status } = req.body;
+    const updatedProject = await updateProjectById(projectId, req.body);
 
-    // Find the staff by staffId and update the information
-    const updatedProject = await ProjectSchema.findOneAndUpdate(
-      { projectId },
-      { cover, title, category, location, vedio ,image,budget,content,status },
-      { new: true }
-    );
-
-    if (!projectStaff) {
-      return res.status(404).json({ error: 'Project not found' });
+    if (updatedProject.error) {
+      return res.status(404).json({ error: updatedProject.error });
     }
 
-    return res.json({ message: 'Project information updated successfully', project: updatedProject });
+    return res.json({ message: 'Project updated successfully' });
   } catch (error) {
-    console.log('Error in edit staff-info endpoint:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-//view project
-router.get('/project/:projectId', async (req, res) => {
-  try {
-    const { projectId } = req.params;
-
-    // Retrieve staff information for the specified staffId
-    const project = await StaffSchema.findOne({ projectId });
-
-    if (!project) {
-      return res.status(404).json({ error: 'project not found' });
-    }
-
-    return res.json({ project });
-  } catch (error) {
-    console.log('Error in view staff-info endpoint:', error);
+    console.log('Error in update project endpoint:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -153,21 +129,18 @@ router.get('/project/:projectId', async (req, res) => {
 router.delete('/project/:projectId', async (req, res) => {
   try {
     const { projectId } = req.params;
+    const deletedProject = await deleteProjectById(projectId);
 
-    // Delete staff information for the specified staffId
-    const deletedProject = await StaffSchema.findOneAndDelete({ projectId });
-
-    if (!deletedProject) {
-      return res.status(404).json({ error: 'Project not found' });
+    if (deletedProject.error) {
+      return res.status(404).json({ error: deletedProject.error });
     }
 
     return res.json({ message: 'Project deleted successfully' });
   } catch (error) {
-    console.log('Error in delete project-info endpoint:', error);
+    console.log('Error in delete project endpoint:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
 
 //post media
 router.post("/media", upload1.single('cover'), async (req, res) => {

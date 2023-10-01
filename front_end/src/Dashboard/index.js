@@ -4,6 +4,7 @@ import Project from "./Project/Project";
 import AddProject from './Project/AddProject'
 import Media from "./Media/Media";
 import Carier from "./Carier/Carier";
+import InteriorPage from "./Interior";
 export {
     Page,
     AddPage,
@@ -11,4 +12,5 @@ export {
     AddProject,
     Media,
     Carier,
+    InteriorPage,
 }
