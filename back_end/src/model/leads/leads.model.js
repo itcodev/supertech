@@ -57,6 +57,8 @@ const insertCarier = (carierObj) => {
 //get project
 const getProject = () => {
   return new Promise((resolve, reject) => {
+  const {category} = req.query;
+
     try {
       ProjectSchema.find(
         {},

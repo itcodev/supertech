@@ -5,9 +5,6 @@ import AddProject from './Project/AddProject'
 import Media from "./Media/Media";
 import Carier from "./Carier/Carier";
 import InteriorPage from "./Interior";
-import ConsultancyPage from "./ConsultancyPage";
-import CommercialPage from "./CommercialPage";
-import ResidentialPage from "./ResidentialPage";
 export {
     Page,
     AddPage,
@@ -16,7 +13,4 @@ export {
     Media,
     Carier,
     InteriorPage,
-    ConsultancyPage,
-    CommercialPage,
-    ResidentialPage,
 }

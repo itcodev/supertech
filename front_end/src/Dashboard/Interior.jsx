@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams ,Link } from "react-router-dom";
 
 import { Table, Button, message, Modal } from "antd";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Form, Input } from "antd";
 
+// const API = "http://localhost:3001/v1/leads/status-based-filter?status=Working";
 const InteriorPage = () => {
   const { projectId } = useParams();
 
@@ -17,15 +18,9 @@ const InteriorPage = () => {
   const [columns, setColumns] = useState([]);
   const [dataSource, setDataSource] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState("Interior");
 
   const nav = useNavigate();
   const [form] = Form.useForm();
-
-  // Function to filter the data based on category
-  const filterDataByCategory = (data, category) => {
-    return data.filter((project) => project.category === category);
-  };
 
   //delete Lead
   const deleteLead = (record) => {
@@ -37,6 +32,7 @@ const InteriorPage = () => {
         try {
           // Get the ID of the record to be deleted
           const projectId = record._id;
+          // console.log('id is' + customerId);
           // Send delete request to the backend API using the customer ID
           await axios.delete(`http://localhost:3001/v1/leads/project/${projectId}`);
 
@@ -46,7 +42,7 @@ const InteriorPage = () => {
           });
 
           // Show success message or perform any other actions as needed
-          message.success("Lead deleted successfully!");
+          message.success(" Lead deleted successfully!");
         } catch (error) {
           // Handle error and show error message
           message.error("Failed to delete lead. Please try again later.");
@@ -66,6 +62,7 @@ const InteriorPage = () => {
   const handleLeadUpdate = async (record) => {
     try {
       const projectId = record._id;
+    //   console.log(leadId);
       // Send update request to the backend API using the customer ID and updated data
       await axios.put(`http://localhost:3001/v1/leads/project/${projectId}`,
         editedProject
@@ -86,7 +83,9 @@ const InteriorPage = () => {
       // Clear the editedCustomer state and exit editing mode
       setEditedProject(null);
       setIsEditing(false);
-    } catch (error) {
+    } 
+    catch (error) 
+    {
       // Handle error and show error message
       message.error("Failed to update lead. Please try again later.");
       console.log("Update lead error:", error);
@@ -110,15 +109,16 @@ const InteriorPage = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3001/v1/leads/project?category=${selectedCategory}`
+           "http://localhost:3001/v1/leads/project"
         );
+        console.log(res);
         const list = res.data.project || [];
         console.log(list);
         const selectedColumns = [
           "title",
           "cover",
           "content",
-        ];
+        ]; 
 
         const actionColumn = {
           title: "Action",
@@ -165,9 +165,7 @@ const InteriorPage = () => {
         cols.push(actionColumn);
 
         setColumns(cols);
-        // Filter the data by the selected category
-        const filteredData = filterDataByCategory(list, selectedCategory);
-        setDataSource(filteredData);
+        setDataSource(list);
         setIsLoading(false);
       } catch (error) {
         console.log("error:", error);
@@ -175,7 +173,7 @@ const InteriorPage = () => {
     };
 
     fetchData();
-  }, [selectedCategory]);
+  }, []);
 
   const handleClicked = () => {
     nav("/dashboard/project/addproject");
@@ -185,7 +183,7 @@ const InteriorPage = () => {
     <>
       <div className="bg-gray-200 h-screen w">
         <div className="flex justify-between pt-6 mb-8 p-5">
-          <div className="text-2xl font-semibold">Page Information</div>
+          <div className=" text-2xl font-semibold">Page Information</div>
           <div>
             <div>Home / Page</div>
           </div>
@@ -228,6 +226,20 @@ const InteriorPage = () => {
               <Form.Item label="Cover" name="cover">
                 <Input />
               </Form.Item>
+              {/* Lead Status:
+              <select
+                value={editedLead.status}
+                onChange={(e) =>
+                  setEditedLead({
+                    ...editedLead,
+                    status: e.target.value,
+                  })
+                }
+              >
+                <option value="Working">Working</option>
+                <option value="Failed">Failed</option>
+                <option value="Contacted">Contacted</option>
+              </select> */}
             </Form>
           )}
         </Modal>
@@ -245,6 +257,7 @@ const InteriorPage = () => {
               <p>Title: {viewedLead.title}</p>
               <p>Content: {viewedLead.content}</p>
               <p>Cover: {viewedLead.cover}</p>
+              {/* <p>Status: {viewedLead.status}</p> */}
             </div>
           )}
         </Modal>
