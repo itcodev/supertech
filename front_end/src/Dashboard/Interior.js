@@ -21,6 +21,8 @@ const InteriorPage = () => {
 
   const nav = useNavigate();
   const [form] = Form.useForm();
+  const {slug} = useParams();
+
 
   //delete Lead
   const deleteLead = (record) => {
@@ -109,7 +111,7 @@ const InteriorPage = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-           "http://localhost:3001/v1/leads/project"
+           `http://localhost:3001/v1/leads/project/${slug}`
         );
         console.log(res);
         const list = res.data.project || [];

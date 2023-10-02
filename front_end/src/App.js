@@ -64,7 +64,7 @@ import Mediadetail from "./components/Mediadetail";
 import Carierdetail from "./components/Carierdetail";
 import Aboutdetail from "./components/Aboutdetail";
 
-import { Page,AddPage,Project,AddProject,Media,Carier,InteriorPage } from "./Dashboard";
+import { Page,AddPage,Project,AddProject,Media,Carier,InteriorPage,ResidentialComp } from "./Dashboard";
 // import Profile from './components/AboutUs/Profile';
 import Home from "./components/Home";
 import DashBoardPage from "./Dashboard/DashboardPage";
@@ -168,7 +168,9 @@ const App = () => {
         <Route exact path="/dashboard/project/addproject" element={<AddProject />} />
         <Route exact path="/dashboard/media" element={<Media />} />
         <Route exact path="/dashboard/carier" element={<Carier />} />
-        <Route exact path="/project/interior" element={<InteriorPage />} />
+        <Route exact path="/project/:slug" element={<InteriorPage />} />
+        {/* <Route exact path="/project/:slug" element={<ResidentialComp />} /> */}
+
 
 
 
