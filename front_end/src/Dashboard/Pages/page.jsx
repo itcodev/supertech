@@ -110,11 +110,11 @@ const Page = () => {
         const res = await axios.get(
           "http://localhost:3001/v1/leads/leads-Info"
         );
-
-        const list = res.data.data || [];
+        const list = res.data.leads || [];
+        console.log(list);
         const selectedColumns = [
+          "category",
           "title",
-          "cover",
           "content",
         ]; 
 

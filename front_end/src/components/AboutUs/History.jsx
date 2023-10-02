@@ -9,6 +9,8 @@ import home3 from "../../assets/BusinessQuaries.png";
 import axios from "axios";
 import menu from "../../assets/menu.svg";
 import footer2 from "../../assets/footer2.png";
+import Spinner from "../Spinner";
+
 const History = () => {
   const nav = useNavigate();
 
@@ -17,6 +19,8 @@ const History = () => {
   const [selectedCategory, setSelectedCategory] = useState(null); // New state for selected category
   const [toggleAgain, setToggleAgain] = useState(false);
   const [openAgainMenuId, setOpenAgainMenuId] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); 
+
   // Find the "About" menu from the navLinks constant
   const aboutMenu = navLinks.find((item) => item.id === "about");
 
@@ -40,6 +44,8 @@ const History = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
+
     // Fetch data from the backend
     axios
       .get("http://localhost:3001/v1/leads/leads-Info")
@@ -49,6 +55,8 @@ const History = () => {
         setRes(resy);
         // setTitles(res);
         // setLoading(false);
+    setIsLoading(false);
+
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -74,6 +82,10 @@ const History = () => {
     <>
       <Navbar />
       <div className="flex flex-col bg-gray-200 h-auto">
+      {isLoading ? (
+        <Spinner /> // Replace with your spinner component
+      ) : (
+        <>
         <div className="w-full h-auto">
           <img
             src={`http://localhost:3001/${res[1]?.cover}`} // Replace with the correct URL
@@ -230,6 +242,8 @@ const History = () => {
             {/* <div className="px-6 md:mx-10"> */}
           </div>
         </div>
+        </>
+      )}
       </div>
       {/* </div> */}
 

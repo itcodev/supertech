@@ -7,10 +7,11 @@ import home4 from "../../assets/Profile.png";
 import footer2 from "../../assets/footer2.png";
 import menu from "../../assets/menu.svg";
 import axios from "axios";
+import Spinner from "../Spinner";
 const Profile = () => {
   const [toggle, setToggle] = useState(false);
   const [res, setRes] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(true); 
   // const [submenuOpen, setSubmenuOpen] = useState(null);
 
   // Find the "About" menu from the navLinks constant
@@ -26,12 +27,14 @@ const Profile = () => {
 
   useEffect(() => {
     // Fetch data from the backend
+    setIsLoading(true);
     axios
       .get("http://localhost:3001/v1/leads/leads-Info")
       .then((response) => {
         const resy = response.data.leads;
         console.log(resy);
         setRes(resy)
+        setIsLoading(false);
         // setTitles(res);
         // setLoading(false);
       })
@@ -63,6 +66,11 @@ const Profile = () => {
     <>
       <Navbar />
       <div className="flex flex-col lg:bg-gray-300 h-auto ">
+
+      {isLoading ? (
+        <Spinner /> // Replace with your spinner component
+      ) : (
+<>
       <div className="w-full h-auto">
         <img
           src={`http://localhost:3001/${res[0]?.cover}`} // Replace with the correct URL
@@ -135,7 +143,7 @@ const Profile = () => {
                 )}
               </div>
               <div className="px-6 md:mx-10">
-                <div className="text-3xl font-bold lg:mt-6 mt-4">{res.length > 0 ? res[2].title : "title?"}</div>
+                <div className="text-3xl font-bold lg:mt-6 mt-4">{res.length > 0 ? res[2].title : ""}</div>
                 <p className=" text-justify mt-6">
                   Supertech Industries Limited, Bangladesh’s leading real estate
                   developer was founded 13 years back in National Capital Region
@@ -525,10 +533,11 @@ const Profile = () => {
               </div>
             </div>
           </div>
+          
         </div>
-      </div>
-      {/* </div> */}
-      {/* </div> */}
+        </>
+      )}
+       </div>
       <Footer />
     </>
   );
