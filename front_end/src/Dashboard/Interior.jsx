@@ -178,7 +178,7 @@ const InteriorPage = () => {
   }, [selectedCategory]);
 
   const handleClicked = () => {
-    nav("addPage");
+    nav("/dashboard/project/addproject");
   };
 
   return (

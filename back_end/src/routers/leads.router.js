@@ -51,7 +51,7 @@ const upload1 = multer({ storage: storage1 });
 // post project->
 router.post('/project', upload1.fields([{ name: "cover" }, { name: "image" }]), async (req, res) => {
   try {
-    const { title, category, location, vedio, budget, content, status } = req.body;
+    const { title, category, location, duration, area ,content, status } = req.body;
     const projectId = generateProjectId();
 
     // Access the uploaded files using req.files["cover"] and req.files["image"]
@@ -65,7 +65,8 @@ router.post('/project', upload1.fields([{ name: "cover" }, { name: "image" }]), 
       category,
       location,
       image: imageFilePath,
-      budget,
+      duration,
+      area,
       content,
       status
     };

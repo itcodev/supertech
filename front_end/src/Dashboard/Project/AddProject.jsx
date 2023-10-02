@@ -46,7 +46,7 @@ const AddProject = () => {
 
       if (status === 200) {
         message.success("Successfully Added");
-        nav("/dashboard/project");
+        nav("/dashboard");
       } else {
         console.log("Error occurred");
       }
