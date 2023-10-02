@@ -57,6 +57,7 @@ const DashBoardPage = () => {
       key: "page",
       icon: <UploadOutlined />,
       style: { fontSize: "15px" },
+      
     },
     {
       label: "Project",
