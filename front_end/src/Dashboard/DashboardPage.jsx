@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Menu, Drawer, Button } from "antd";
 import {
   SettingOutlined,
@@ -9,12 +9,16 @@ import {
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-
+import axios from "axios";
 const DashBoardPage = () => {
   const [pageTitle, setpageTitle] = useState("Welcome Admin");
   const [open, setOpen] = useState(false);
-  const nav = useNavigate();
+  const [titles, setTitles] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("Interior"); // Initialize with default category
 
+
+  
+  const nav = useNavigate();
   const showDrawer = () => {
     setOpen(true);
   };
@@ -25,11 +29,18 @@ const DashBoardPage = () => {
 
   const handleMenuItem = (e) => {
     setOpen(false);
-    if (e.key === "/dashboard") setpageTitle("Welcome Admin");
-    if (e.key === "pageadd") setpageTitle("Page Add");
-    if (e.key === "pagelist") setpageTitle("page List");
-    if (e.key === "project/interior") setpageTitle("Interior");
-    if (e.key === "project/residential") setpageTitle("Residential");
+    if (e.key === "/dashboard") {
+      setpageTitle("Welcome Admin");
+    } else if (e.key === "pageadd") {
+      setpageTitle("Page Add");
+    } else if (e.key === "pagelist") {
+      setpageTitle("Page List");
+    } else if (e.key.startsWith("/project/")) {
+      // Extract category from the menu item key
+      const category = e.key.split("/")[2];
+      setSelectedCategory(category);
+      setpageTitle(category); // Update the title with the selected category
+    }
     // Add more conditionals for other menu items if needed
     nav(e.key);
   };
@@ -99,27 +110,33 @@ const DashBoardPage = () => {
     },
   ];
 
-  const handleLogout = () => {
-    // Implement your logout logic here
-    // For example, clear authentication tokens, redirect to login page, etc.
-    console.log("Logout clicked");
-  };
+  useEffect(() => {
+    // Fetch data from the backend based on the selected category
+    axios
+      .get(`http://localhost:3001/v1/leads/project?category=${selectedCategory}`)
+      .then((response) => {
+        console.log(response);
+        const res = response.data.project;
+        console.log(res);
+        setTitles(res);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, [selectedCategory]);
 
   return (
     <>
       <div className="px-3 py-2 mt-3 flex bg-red-700 text-white relative">
         <div className="cursor-pointer">
-          <AlignLeftOutlined
-            onClick={showDrawer}
-            style={{ fontSize: "20px" }}
-          />
+          <AlignLeftOutlined onClick={showDrawer} style={{ fontSize: "20px" }} />
         </div>
         <div className="flex justify-center items-center w-screen text-2xl">
           {pageTitle}
         </div>
         <div
           className="absolute top-0 right-0 p-2 cursor-pointer"
-          onClick={handleLogout}
+          onClick={''}
         >
           <LogoutOutlined style={{ fontSize: "20px" }} />
         </div>
@@ -167,7 +184,6 @@ const DashBoardPage = () => {
         </Menu>
       </Drawer>
       <Outlet />
-      {/* <div className="bg-red-800 h-5 w-screen  bottom-1"></div> */}
     </>
   );
 };
