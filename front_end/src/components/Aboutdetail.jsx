@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams ,Link } from "react-router-dom";
 import axios from "axios";
-
+import Spinner from "./Spinner";
 import { navLinks } from "../constants";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -12,6 +12,7 @@ const Aboutdetail = () => {
     const { leadInfoId } = useParams();
     const [toggle, setToggle] = useState(false);
     const [about, setAbout] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
   // Find the "About" menu from the navLinks constant
   const aboutMenu = navLinks.find((item) => item.id === "about");
@@ -26,6 +27,8 @@ const Aboutdetail = () => {
 
 
   useEffect(() => {
+    setIsLoading(true);
+
     // Fetch project details based on projectId from the API
     axios
       .get(`http://localhost:3001/v1/leads/lead-info/${leadInfoId}`)
@@ -36,11 +39,13 @@ const Aboutdetail = () => {
         console.log(about);
  
         setAbout(about);
-        // setLoading(false);
+        setIsLoading(false);
+
       })
       .catch((error) => {
         console.error("Error fetching project details:", error);
-        // setLoading(false);
+        setIsLoading(false);
+
       });
   }, [leadInfoId]);
 
@@ -62,6 +67,10 @@ const Aboutdetail = () => {
     <>
       <Navbar />
       <div className="flex flex-col bg-gray-200 h-auto">
+      {isLoading ? (
+          <Spinner /> // Replace with your spinner component
+        ) : (
+          <>
       <div className="w-full h-auto">
         <img
           src={`http://localhost:3001/${about?.cover}`} // Replace with the correct URL
@@ -141,6 +150,8 @@ const Aboutdetail = () => {
             </div>
           </div>
         </div>
+        </>
+        )}
       </div>
 
       <Footer />

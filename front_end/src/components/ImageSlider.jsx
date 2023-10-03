@@ -15,11 +15,11 @@ const ImageSlider = ({ images }) => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <Slider {...settings}>
         {images.map((image, index) => (
           <div key={index} className="w-screen h-screen">
-            <img src={image} alt={`Image ${index + 1}`} className="lg:w-screen lg:h-screen md:w-screen md:h-[302px] w-screen  h-[200px] object-cover" />
+            <img src={image} alt={`Image ${index + 1}`} className="lg:w-screen lg:h-screen md:w-screen md:h-[302px] h-[200px] object-cover" />
           </div>
         ))}
       </Slider>

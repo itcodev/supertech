@@ -8,11 +8,14 @@ import home3 from "../../assets/BusinessQuaries.png";
 import axios from "axios";
 import menu from "../../assets/menu.svg";
 import footer2 from "../../assets/footer2.png";
+import Spinner from "../Spinner";
+
 const Press = () => {
   const [openSubMenuId, setOpenSubMenuId] = useState(null);
   const [toggle, setToggle] = useState(false);
   const [res, setRes] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null); // New state for selected category
+  const [isLoading, setIsLoading] = useState(true);
 
   // Find the "About" menu from the navLinks constant
   const aboutMenu = navLinks.find((item) => item.id === "media");
@@ -29,6 +32,8 @@ const Press = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
+
     // Fetch data from the backend
     axios
       .get("http://localhost:3001/v1/leads/media")
@@ -36,12 +41,13 @@ const Press = () => {
         const resy = response.data.media;
         console.log(resy);
         setRes(resy);
-        // setTitles(res);
-        // setLoading(false);
+        setIsLoading(false);
+
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
-        // setLoading(false);
+        setIsLoading(false);
+
       });
   }, []);
 
@@ -63,6 +69,10 @@ const Press = () => {
     <>
       <Navbar />
       <div className="flex flex-col bg-gray-200 h-auto">
+      {isLoading ? (
+          <Spinner /> // Replace with your spinner component
+        ) : (
+          <>
         <div className="w-full h-auto">
           <img
             src={`http://localhost:3001/${res[5]?.cover}`} // Replace with the correct URL
@@ -167,8 +177,8 @@ const Press = () => {
                 {res.length > 0 ? res[4].title : "fh"}
               </div>
 
-              <div className="mt-4 px-6 mb-20 mx-6">
-                <ul className="flex flex-wrap gap-2 sm:gap-4 md:gamx-2">
+               <div className="mt-4 px-6 mb-20 mx-6">
+                {/* <ul className="flex flex-wrap gap-2 sm:gap-4 md:gamx-2">
                   <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
                     <a href="">All</a>
                   </li>
@@ -208,11 +218,13 @@ const Press = () => {
                   <li className="bg-gray-300 text-white p-2 hover:bg-orange-500">
                     <a href="">December</a>
                   </li>
-                </ul>
-              </div>
+                </ul> */}
+              </div> 
             </div>
           </div>
         </div>
+        </>
+        )}
       </div>
 
       <Footer />

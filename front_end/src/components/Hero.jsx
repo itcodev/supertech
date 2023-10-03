@@ -40,7 +40,7 @@ const Hero = () => {
 
   return (
     <>
-      <div className="relative w-screen mt-4 lg:h-[100vh] md:h-[60vh] overflow-hidden object-cover">
+      <div className="relative w-screen mt-4 lg:h-[100vh] md:h-[60vh] overflow-hidden object-contain">
         <ImageSlider images={images} />
       </div>
 

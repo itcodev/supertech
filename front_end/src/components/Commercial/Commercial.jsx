@@ -6,10 +6,14 @@ import Footer from "../Footer";
 import home5 from "../../assets/Interrior.png";
 import footer2 from "../../assets/footer2.png";
 import axios from "axios";
+import Spinner from '../Spinner'
+
 const Commercial = () => {
   const [openSubMenuId, setOpenSubMenuId] = useState(null);
   const [titles, setTitles] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [selectedCategory, setSelectedCategory] = useState(null); // New state for selected category
   const location = useLocation();
   const projectMenu = navLinks.find((item) => item.id === "project");
@@ -22,6 +26,7 @@ const Commercial = () => {
     } else {
       setOpenSubMenuId(null);
     }
+    setIsLoading(true);
 
     // Fetch data from the backend
     axios
@@ -31,11 +36,13 @@ const Commercial = () => {
         const res = response.data.project;
         console.log(res);
         setTitles(res);
-        setLoading(false);
+        setIsLoading(false);
+
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
-        setLoading(false);
+        setIsLoading(false);
+        ;
       });
   }, [location]);
 
@@ -47,6 +54,10 @@ const Commercial = () => {
     <>
       <Navbar />
       <div className="flex flex-col bg-gray-200 h-auto">
+      {isLoading ? (
+          <Spinner /> // Replace with your spinner component
+        ) : (
+          <>
         <div className="w-full h-auto">
           <img src={home5} alt="image" className="w-full" />
         </div>
@@ -108,12 +119,13 @@ const Commercial = () => {
                   </div>
                 </div>
               ))}
-          </div>
+          </div> 
         </div>
-
+</>
+        )}
         <div className="bg-white shadow-xl p-2 md:mx-44 mt-2 h-[500px]">
           {/* Display titles based on the selected category */}
-          {loading ? (
+          {isLoading ? (
             <p>Loading...</p>
           ) : (
             <ul>

@@ -79,7 +79,7 @@ const FuturePlan = () => {
         <>
         <div className="w-full h-auto">
           <img
-            src={`http://localhost:3001/${res[4]?.cover}`} // Replace with the correct URL
+            src={`http://localhost:3001/${res[1]?.cover}`} // Replace with the correct URL
             alt={res[4]?.title}
             className="w-full h-[500px] object-cover"
           />

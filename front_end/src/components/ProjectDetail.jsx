@@ -7,17 +7,21 @@ import Navbar from './Navbar'
 import Footer from "./Footer";
 import Sliderr from "./Slider";
 import {navLinks} from '../constants/index'
-
+import Spinner from "./Spinner";
 const ProjectDetail = () => {
   const { projectId } = useParams();
   const [project, setProject] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+
   // Find the "About" menu from the navLinks constant
   const projectMenu = navLinks.find((item) => item.id === "project");
 
   // Extract the submenu items for the "About" menu
   const projectSubmenuItems = projectMenu && projectMenu.submenu;
   useEffect(() => {
+    setIsLoading(true);
+
     // Fetch project details based on projectId from the API
     axios
       .get(`http://localhost:3001/v1/leads/project/${projectId}`)
@@ -28,11 +32,13 @@ const ProjectDetail = () => {
         console.log(res);
         console.log(res.image);
         setProject(res);
-        setLoading(false);
+        setIsLoading(false);
+
       })
       .catch((error) => {
         console.error("Error fetching project details:", error);
-        setLoading(false);
+        setIsLoading(false);
+
       });
   }, [projectId]);
 
@@ -40,6 +46,11 @@ const ProjectDetail = () => {
     <>
       <Navbar />
       <div className="flex flex-col bg-gray-200 h-auto">
+
+      {isLoading ? (
+          <Spinner /> // Replace with your spinner component
+        ) : (
+          <>
         <div className="w-full h-auto">
         <img
           src={`http://localhost:3001/${project?.cover}`} // Replace with the correct URL
@@ -115,6 +126,8 @@ const ProjectDetail = () => {
             </div>
           </div>
         </div>
+        </>
+        )}
       </div>
       <Footer />
     </>
